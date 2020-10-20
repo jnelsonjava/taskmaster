@@ -11,7 +11,8 @@ An Android app for tracking tasks!
     - task list page added
   - 10/20/20
     - created task details page
-    
+    - created settings page
+
 ## The beginning
 
 ![image description](screenshots/the-beginning.PNG)
