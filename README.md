@@ -9,7 +9,16 @@ An Android app for tracking tasks!
     - main tasks page added
     - add task page added
     - task list page added
-    
-## The beginning
+  - 10/20/20
+    - created task details page
+    - created settings page
+    - added task buttons with intents to task details
+    - task list title dynamic to username in settings
 
-![image description](screenshots/the-beginning.PNG)
+## Main Page
+
+![image description](screenshots/main-activity-10-20-20.PNG)
+
+## Detail View
+
+![image description](screenshots/task-details-activity-10-20-20.PNG)
