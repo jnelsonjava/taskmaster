@@ -10,4 +10,5 @@
     <string name="total_tasks_holding_text">Total tasks: 0</string>
     <string name="submitted_text">Submitted!</string>
     <string name="my_task_add_task_form">My Task</string>
+    <string name="task_details_header_text">Task Details</string>
 </resources>

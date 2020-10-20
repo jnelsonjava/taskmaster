@@ -9,6 +9,8 @@ An Android app for tracking tasks!
     - main tasks page added
     - add task page added
     - task list page added
+  - 10/20/20
+    - created task details page
     
 ## The beginning
 
