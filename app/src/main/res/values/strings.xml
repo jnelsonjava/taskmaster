@@ -15,4 +15,9 @@
     <string name="my_name">My Name</string>
     <string name="username_title">Username</string>
     <string name="settings_header">Settings</string>
+    <string name="taskListTitleText">tasks</string>
+    <string name="task1Text">Do laundry</string>
+    <string name="task2Text">Make dinner</string>
+    <string name="task3Text">Hide and seek with cat</string>
+    <string name="loremIpsumText">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>
