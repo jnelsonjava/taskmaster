@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Task Master</string>
+    <string name="my_tasks_header">My Tasks</string>
+    <string name="add_task_button_text">Add Task</string>
+    <string name="all_tasks_button_text">All Tasks</string>
+    <string name="placeholdertasklistimagetext">placeholderTaskListImage</string>
+    <string name="task_description_add_task_form">Task Description</string>
+    <string name="task_title_add_task_form">Task Title</string>
+    <string name="do_something_placeholder_description">Do something</string>
+    <string name="total_tasks_holding_text">Total tasks: 0</string>
+    <string name="submitted_text">Submitted!</string>
+    <string name="my_task_add_task_form">My Task</string>
 </resources>
