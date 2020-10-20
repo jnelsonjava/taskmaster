@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTask">
+
+    <Button
+        android:id="@+id/add_task_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/add_task_button_text"
+        app:layout_constraintStart_toStartOf="@+id/editTextTaskDescription"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTaskDescription" />
+
+    <EditText
+        android:id="@+id/editTextTaskDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/do_something_placeholder_description"
+        app:layout_constraintStart_toStartOf="@+id/taskDescriptionText"
+        app:layout_constraintTop_toBottomOf="@+id/taskDescriptionText"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/taskDescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/task_description_add_task_form"
+        app:layout_constraintStart_toStartOf="@+id/editTextTaskTitle"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTaskTitle" />
+
+    <TextView
+        android:id="@+id/addTaskHeaderText"
+        android:layout_width="290dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="28dp"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/add_task_button_text"
+        android:textAlignment="viewStart"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/taskTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/task_title_add_task_form"
+        app:layout_constraintEnd_toStartOf="@+id/addTaskHeaderText"
+        app:layout_constraintStart_toStartOf="@+id/addTaskHeaderText"
+        app:layout_constraintTop_toBottomOf="@+id/addTaskHeaderText" />
+
+    <EditText
+        android:id="@+id/editTextTaskTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/my_task_add_task_form"
+        app:layout_constraintStart_toStartOf="@+id/taskTitleText"
+        app:layout_constraintTop_toBottomOf="@+id/taskTitleText"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/taskTallyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="@string/total_tasks_holding_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/addTaskHeaderText"
+        app:layout_constraintTop_toBottomOf="@+id/add_task_button2"
+        app:layout_constraintVertical_bias="0.197" />
+
+    <TextView
+        android:id="@+id/textSubmitted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/submitted_text"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_task_button2"
+        tools:visibility="invisible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
