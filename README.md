@@ -14,6 +14,8 @@ An Android app for tracking tasks!
     - created settings page
     - added task buttons with intents to task details
     - task list title dynamic to username in settings
+   - 10/21/20
+    - task class created
 
 ## Main Page
 
