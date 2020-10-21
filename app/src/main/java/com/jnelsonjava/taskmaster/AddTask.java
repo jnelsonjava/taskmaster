@@ -1,8 +1,7 @@
-package com.example.taskmaster;
+package com.jnelsonjava.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
