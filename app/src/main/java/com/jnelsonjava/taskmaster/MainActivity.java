@@ -1,6 +1,8 @@
 package com.jnelsonjava.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,12 +12,44 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ArrayList<Task> tasks = new ArrayList<>();
+        tasks.add(new Task("Laundry", "Do laundry", "assigned"));
+        tasks.add(new Task("Dinner", "Make dinner", "assigned"));
+        tasks.add(new Task("Hide and Seek", "Play hide and seek with the cat", "new"));
+        tasks.add(new Task("Mulch", "Spread mulch out over the garden", "complete"));
+        tasks.add(new Task("Laundry", "Do laundry", "assigned"));
+        tasks.add(new Task("Dinner", "Make dinner", "assigned"));
+        tasks.add(new Task("Hide and Seek", "Play hide and seek with the cat", "new"));
+        tasks.add(new Task("Mulch", "Spread mulch out over the garden", "complete"));
+        tasks.add(new Task("Laundry", "Do laundry", "assigned"));
+        tasks.add(new Task("Dinner", "Make dinner", "assigned"));
+        tasks.add(new Task("Hide and Seek", "Play hide and seek with the cat", "new"));
+        tasks.add(new Task("Mulch", "Spread mulch out over the garden", "complete"));
+        tasks.add(new Task("Laundry", "Do laundry", "assigned"));
+        tasks.add(new Task("Dinner", "Make dinner", "assigned"));
+        tasks.add(new Task("Hide and Seek", "Play hide and seek with the cat", "new"));
+        tasks.add(new Task("Mulch", "Spread mulch out over the garden", "complete"));
+        tasks.add(new Task("Laundry", "Do laundry", "assigned"));
+        tasks.add(new Task("Dinner", "Make dinner", "assigned"));
+        tasks.add(new Task("Hide and Seek", "Play hide and seek with the cat", "new"));
+        tasks.add(new Task("Mulch", "Spread mulch out over the garden", "complete"));
+        tasks.add(new Task("Laundry", "Do laundry", "assigned"));
+        tasks.add(new Task("Dinner", "Make dinner", "assigned"));
+        tasks.add(new Task("Hide and Seek", "Play hide and seek with the cat", "new"));
+        tasks.add(new Task("Mulch", "Spread mulch out over the garden", "complete"));
+
+        RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new TaskAdapter(tasks));
 
         // hard coded task buttons to be replaced by dynamic list
         Button task1Button = MainActivity.this.findViewById(R.id.taskButton1);

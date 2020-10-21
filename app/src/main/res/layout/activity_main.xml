@@ -39,10 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="@string/add_task_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/all_tasks_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskButton3" />
+        app:layout_constraintTop_toBottomOf="@+id/taskButton3"
+        app:layout_constraintVertical_bias="0.88" />
 
     <Button
         android:id="@+id/all_tasks_button"
@@ -79,26 +81,37 @@
         android:id="@+id/taskButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/task1Text"
         app:layout_constraintStart_toStartOf="@+id/taskListTitleTextView"
-        app:layout_constraintTop_toBottomOf="@+id/taskListTitleTextView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/taskButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/task2Text"
-        app:layout_constraintStart_toStartOf="@+id/taskListTitleTextView"
-        app:layout_constraintTop_toBottomOf="@+id/taskButton1" />
+        app:layout_constraintStart_toEndOf="@+id/taskButton1"
+        app:layout_constraintTop_toTopOf="@+id/taskButton1" />
 
     <Button
         android:id="@+id/taskButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="20dp"
         android:text="@string/task3Text"
-        app:layout_constraintStart_toStartOf="@+id/taskListTitleTextView"
-        app:layout_constraintTop_toBottomOf="@+id/taskButton2" />
+        app:layout_constraintStart_toEndOf="@+id/taskButton2"
+        app:layout_constraintTop_toTopOf="@+id/taskButton2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/task_list_main_recycler_view"
+        android:layout_width="363dp"
+        android:layout_height="379dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_task_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskListTitleTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

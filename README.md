@@ -16,6 +16,7 @@ An Android app for tracking tasks!
     - task list title dynamic to username in settings
    - 10/21/20
     - task class created
+    - set up recycler view for task list
 
 ## Main Page
 
