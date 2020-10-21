@@ -25,4 +25,5 @@
     <string name="task_title_fragment_text">Task Title</string>
     <string name="task_body_fragment_text">Task Body</string>
     <string name="task_state_fragment_text">Task State</string>
+    <string name="task_progress_text">Progress:</string>
 </resources>

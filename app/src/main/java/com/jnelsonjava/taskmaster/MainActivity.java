@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskListenable {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(tasks));
+        recyclerView.setAdapter(new TaskAdapter(tasks, this));
 
         // hard coded task buttons to be replaced by dynamic list
-        Button task1Button = MainActivity.this.findViewById(R.id.taskButton1);
-        Button task2Button = MainActivity.this.findViewById(R.id.taskButton2);
-        Button task3Button = MainActivity.this.findViewById(R.id.taskButton3);
-        task1Button.setOnClickListener(viewTaskDetail);
-        task2Button.setOnClickListener(viewTaskDetail);
-        task3Button.setOnClickListener(viewTaskDetail);
+//        Button task1Button = MainActivity.this.findViewById(R.id.taskButton1);
+//        Button task2Button = MainActivity.this.findViewById(R.id.taskButton2);
+//        Button task3Button = MainActivity.this.findViewById(R.id.taskButton3);
+//        task1Button.setOnClickListener(viewTaskDetail);
+//        task2Button.setOnClickListener(viewTaskDetail);
+//        task3Button.setOnClickListener(viewTaskDetail);
 
         Button addTaskButton = MainActivity.this.findViewById(R.id.add_task_button);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -101,13 +101,23 @@ public class MainActivity extends AppCompatActivity {
 
     // reference for getting the text from a pressed button https://stackoverflow.com/questions/5620772/get-text-from-pressed-button
     // Function sends the clicked button's text in an intent starting the TaskDetail activity
-    View.OnClickListener viewTaskDetail = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Button button = (Button) v;
-            Intent goToTaskDetailsIntent = new Intent(MainActivity.this, TaskDetail.class);
-            goToTaskDetailsIntent.putExtra("task", button.getText().toString());
-            MainActivity.this.startActivity(goToTaskDetailsIntent);
-        }
-    };
+//    View.OnClickListener viewTaskDetail = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            Button button = (Button) v;
+//            Intent goToTaskDetailsIntent = new Intent(MainActivity.this, TaskDetail.class);
+//            goToTaskDetailsIntent.putExtra("task", button.getText().toString());
+//            MainActivity.this.startActivity(goToTaskDetailsIntent);
+//        }
+//    };
+
+
+    @Override
+    public void taskListener(Task task) {
+        Intent goToTaskDetailsIntent = new Intent(MainActivity.this, TaskDetail.class);
+        goToTaskDetailsIntent.putExtra("title", task.title);
+        goToTaskDetailsIntent.putExtra("body", task.body);
+        goToTaskDetailsIntent.putExtra("state", task.state);
+        this.startActivity(goToTaskDetailsIntent);
+    }
 }

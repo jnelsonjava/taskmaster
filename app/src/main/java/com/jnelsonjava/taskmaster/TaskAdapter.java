@@ -12,9 +12,11 @@ import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     public ArrayList<Task> tasks;
+    public TaskListenable taskListener;
 
-    public TaskAdapter(ArrayList<Task> tasks) {
+    public TaskAdapter(ArrayList<Task> tasks, TaskListenable taskListener) {
         this.tasks = tasks;
+        this.taskListener = taskListener;
     }
 
     @NonNull
@@ -23,7 +25,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_task, parent, false);
 
-        TaskViewHolder taskViewHolder = new TaskViewHolder(view);
+        final TaskViewHolder taskViewHolder = new TaskViewHolder(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                taskListener.taskListener(taskViewHolder.task);
+            }
+        });
 
         return taskViewHolder;
     }
@@ -54,5 +63,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             super(itemView);
             this.itemView = itemView;
         }
+    }
+
+    public static interface TaskListenable {
+        public void taskListener(Task task);
     }
 }
