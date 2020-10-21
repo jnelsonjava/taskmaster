@@ -22,12 +22,12 @@
         android:ems="10"
         android:inputType="text"
         android:text="@string/do_something_placeholder_description"
-        app:layout_constraintStart_toStartOf="@+id/taskDescriptionText"
-        app:layout_constraintTop_toBottomOf="@+id/taskDescriptionText"
+        app:layout_constraintStart_toStartOf="@+id/taskBodyTextView"
+        app:layout_constraintTop_toBottomOf="@+id/taskBodyTextView"
         android:importantForAutofill="no" />
 
     <TextView
-        android:id="@+id/taskDescriptionText"
+        android:id="@+id/taskBodyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

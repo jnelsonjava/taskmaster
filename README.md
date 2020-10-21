@@ -14,11 +14,15 @@ An Android app for tracking tasks!
     - created settings page
     - added task buttons with intents to task details
     - task list title dynamic to username in settings
+   - 10/21/20
+    - task class created
+    - set up recycler view for task list
+    - made task list clickable to view details
 
 ## Main Page
 
-![image description](screenshots/main-activity-10-20-20.PNG)
+![Main page](screenshots/main-activity-10-21-20.PNG)
 
 ## Detail View
 
-![image description](screenshots/task-details-activity-10-20-20.PNG)
+![Task detail page](screenshots/task-details-activity-10-20-20.PNG)

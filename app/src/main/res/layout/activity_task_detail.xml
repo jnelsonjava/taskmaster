@@ -7,7 +7,7 @@
     tools:context=".TaskDetail">
 
     <TextView
-        android:id="@+id/taskDetailHeader"
+        android:id="@+id/taskTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="47dp"
         android:layout_marginTop="28dp"
@@ -21,12 +21,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/taskDescriptionText"
+        android:id="@+id/taskBodyTextView"
         android:layout_width="341dp"
         android:layout_height="368dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="16dp"
         android:text="@string/loremIpsumText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskDetailHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/taskStateTextView" />
+
+    <TextView
+        android:id="@+id/taskStateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/task_progress_text"
+        app:layout_constraintStart_toStartOf="@+id/taskTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/taskTitleTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
