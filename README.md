@@ -18,6 +18,11 @@ An Android app for tracking tasks!
     - task class created
     - set up recycler view for task list
     - made task list clickable to view details
+  - 10/22/20
+    - added Room dependencies and linked Task as an Entity
+    - edited task list to refer to database
+    - replaced hard coded task inserts with reference to add form
+    - adding tests for task and username changes
 
 ## Main Page
 
