@@ -36,6 +36,7 @@ public class AddTaskRenderOnMainActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    // Testing AddTaskActivity updates task list on MainActivity
     @Test
     public void addTaskRenderOnMainActivityTest() {
         ViewInteraction appCompatButton = onView(

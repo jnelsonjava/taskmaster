@@ -31,6 +31,7 @@ public class MainActivityHeaderRenderTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    // Testing Main Activity runs on startup with "My Tasks" header
     @Test
     public void mainActivityHeaderRenderTest() {
         ViewInteraction textView = onView(

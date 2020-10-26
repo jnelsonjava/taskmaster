@@ -35,6 +35,7 @@ public class SettingsUpdateUsernameTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+    // Testing update username in SettingsActivity updates username displayed on MainActivity
     @Test
     public void settingsUpdateUsernameTest() {
         ViewInteraction appCompatButton = onView(
