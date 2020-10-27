@@ -26,6 +26,9 @@ An Android app for tracking tasks!
   - 10/26/20
     - adding tests for task views and main user paths
     - updated screenshots
+  - 10/27/20
+    - connected to DynamoDB using Amplify
+    - converted task add to save to DynamoDB instead of Room
 
 ## Main Page
 
