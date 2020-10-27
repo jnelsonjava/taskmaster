@@ -23,11 +23,18 @@ An Android app for tracking tasks!
     - edited task list to refer to database
     - replaced hard coded task inserts with reference to add form
     - adding tests for task and username changes
+  - 10/26/20
+    - adding tests for task views and main user paths
+    - updated screenshots
 
 ## Main Page
 
-![Main page](screenshots/main-activity-10-21-20.PNG)
+![Main page](screenshots/main-activity-10-26-20.PNG)
 
 ## Detail View
 
-![Task detail page](screenshots/task-details-activity-10-20-20.PNG)
+![Task detail page](screenshots/task-details-activity-10-26-20.PNG)
+
+## Add Task Form
+
+![Add task page](screenshots/add-task-activity-10-26-20.PNG)

@@ -22,32 +22,35 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddTaskActivityHeaderRenderTest {
+public class AllTaskButtonToAllTaskActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    // Testing "Add Task" button starts AddTaskActivity with "Add Task" header
+    // Testing "All Tasks" button starts AllTaskActivity with "All Tasks" header
     @Test
-    public void addTaskActivityHeaderRenderTest() {
+    public void allTaskButtonToAllTaskActivityTest() {
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.add_task_button), withText("Add Task"),
+                allOf(withId(R.id.all_tasks_button), withText("All Tasks"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                3),
                         isDisplayed()));
         appCompatButton.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.addTaskHeaderText), withText("Add Task")));
-        textView.check(matches(withText("Add Task")));
+                allOf(withId(R.id.allTasksHeaderText), withText("All Tasks"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView.check(matches(withText("All Tasks")));
     }
 
     private static Matcher<View> childAtPosition(
