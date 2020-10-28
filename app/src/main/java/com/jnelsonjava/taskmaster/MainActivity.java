@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,14 +24,14 @@ import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.generated.model.TaskInstance;
+import com.amplifyframework.datastore.generated.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskListenable {
 
-    Database db;
+//    Database db;
     RecyclerView recyclerView;
 
     @Override
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
         }
 
-        List<TaskInstance> taskInstances = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
 
         Handler handler = new Handler(Looper.getMainLooper(),
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
         Handler handleItemAdded = new Handler(Looper.getMainLooper(),
                 message -> {
-                    recyclerView.getAdapter().notifyItemInserted(taskInstances.size() - 1);
+                    recyclerView.getAdapter().notifyItemInserted(tasks.size() - 1);
                     Toast.makeText(this, "New Task!", Toast.LENGTH_SHORT).show();
                     return false;
                 });
@@ -79,13 +78,13 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
 
         Amplify.API.query(
-                ModelQuery.list(TaskInstance.class),
+                ModelQuery.list(Task.class),
                 response -> {
-                    for (TaskInstance taskInstance : response.getData()) {
-                        taskInstances.add(taskInstance);
+                    for (Task task : response.getData()) {
+                        tasks.add(task);
                     }
                     handler.sendEmptyMessage(1);
-                    Log.i("Amplify.queryitems", "Got this many items from dynamo " + taskInstances.size());
+                    Log.i("Amplify.queryitems", "Got this many items from dynamo " + tasks.size());
 
 
                 },
@@ -95,17 +94,17 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
         recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(taskInstances, this));
+        recyclerView.setAdapter(new TaskAdapter(tasks, this));
 
 
 
         ApiOperation subscription = Amplify.API.subscribe(
-                ModelSubscription.onCreate(TaskInstance.class),
+                ModelSubscription.onCreate(Task.class),
                 onEstablished -> Log.i("Amplify.Subscription", "Subscription established"),
                 onCreated -> {
-                    Log.i("Amplify.Subscription", "Todo create subscription received: " + ((TaskInstance) onCreated.getData()).getTitle());
-                    TaskInstance newTask = (TaskInstance) onCreated.getData();
-                    taskInstances.add(newTask);
+                    Log.i("Amplify.Subscription", "Todo create subscription received: " + ((Task) onCreated.getData()).getTitle());
+                    Task newTask = (Task) onCreated.getData();
+                    tasks.add(newTask);
                     recyclerView.getAdapter().notifyItemInserted(1);
                 },
                 onFailure -> Log.e("Amplify.Subscription", "Subscription failed", onFailure),
@@ -164,11 +163,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
     }
 
     @Override
-    public void taskListener(TaskInstance task) {
+    public void taskListener(Task task) {
         Intent goToTaskDetailsIntent = new Intent(MainActivity.this, TaskDetail.class);
         goToTaskDetailsIntent.putExtra("title", task.getTitle());
         goToTaskDetailsIntent.putExtra("body", task.getBody());
-        goToTaskDetailsIntent.putExtra("state", task.getState());
+        goToTaskDetailsIntent.putExtra("state", task.getState().getName());
         this.startActivity(goToTaskDetailsIntent);
     }
 }

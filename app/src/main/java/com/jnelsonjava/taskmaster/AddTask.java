@@ -1,7 +1,6 @@
 package com.jnelsonjava.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,16 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.generated.model.TaskInstance;
+import com.amplifyframework.datastore.generated.model.State;
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 
 public class AddTask extends AppCompatActivity {
 
-    Database db;
+//    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +53,29 @@ public class AddTask extends AppCompatActivity {
 //                db.taskInstanceDAO().saveTask(task);
 
 
-                TaskInstance task = TaskInstance.builder()
-                        .title(title.getText().toString())
-                        .body(body.getText().toString())
-                        .state("new")
-                        .build();
+//                Task task = Task.builder()
+//                        .title(title.getText().toString())
+//                        .body(body.getText().toString())
+//                        .state("new")
+//                        .build();
 
-                Amplify.API.mutate(ModelMutation.create(task),
-                        response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
-                        error -> Log.e("AddTaskActivityAmplify", error.toString()));
+
+
+//                Amplify.API.mutate(ModelMutation.create(task),
+//                        response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
+//                        error -> Log.e("AddTaskActivityAmplify", error.toString()));
+
+                // LEAVE THIS COMMENTED OUT, TEMPORARY USAGE FOR STATIC TABLE CREATION
+//                Team team = Team.builder()
+//                        .name("Zorg")
+//                        .build();
+//
+//                Amplify.API.mutate(ModelMutation.create(team),
+//                        response -> Log.i("Amplify.AddTeam", "successfully added team"),
+//                        error -> Log.e("Amplify.AddTeam", error.toString())
+//                );
+                // END OF COMMENT SECTION
+
             }
         });
     }

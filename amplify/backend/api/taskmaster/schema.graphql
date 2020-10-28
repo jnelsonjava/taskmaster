@@ -1,6 +1,23 @@
-type TaskInstance @model {
+type Task @model
+  @key(name: "byTask", fields: ["taskID"]) {
   id: ID!
+  taskID: ID!
+  stateID: ID!
   title: String!
   body: String
-  state: String
+  state: State @connection(fields: ["stateID"])
+  team: Team @connection(fields: ["taskID"])
 }
+
+type State @model {
+  id: ID!
+  name: String!
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+  tasks: [Task] @connection(keyName: "byTask", fields: ["id"])
+}
+
+
