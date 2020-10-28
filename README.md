@@ -32,6 +32,10 @@ An Android app for tracking tasks!
     - main page task list now updated from DynamoDB
   - 10/28/20
     - added subscription and handler to keep task list up to date with cloud
+    - created state and team models with relations to the task model
+    - replaced submitted popup with toast on add task form
+    - added hard coded radio button team selection to add task form
+    - updated task save to match relations on DynamoDB
 
 ## Main Page
 

@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
 
                 },
-                error -> Log.i("Amplify.queryitems", "Did not get items"));
+                error -> Log.i("Amplify.queryitems", "Did not get items")
+        );
 
 
 

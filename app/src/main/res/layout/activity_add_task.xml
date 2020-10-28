@@ -13,18 +13,18 @@
         android:layout_marginTop="40dp"
         android:text="@string/add_task_button_text"
         app:layout_constraintStart_toStartOf="@+id/editTextTaskDescription"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTaskDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/teamAssignmentRadioGroup" />
 
     <EditText
         android:id="@+id/editTextTaskDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:text="@string/do_something_placeholder_description"
         app:layout_constraintStart_toStartOf="@+id/taskBodyTextView"
-        app:layout_constraintTop_toBottomOf="@+id/taskBodyTextView"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/taskBodyTextView" />
 
     <TextView
         android:id="@+id/taskBodyTextView"
@@ -34,6 +34,15 @@
         android:text="@string/task_description_add_task_form"
         app:layout_constraintStart_toStartOf="@+id/editTextTaskTitle"
         app:layout_constraintTop_toBottomOf="@+id/editTextTaskTitle" />
+
+    <TextView
+        android:id="@+id/taskTeamTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/team_assignment_form_text"
+        app:layout_constraintStart_toStartOf="@+id/editTextTaskDescription"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTaskDescription" />
 
     <TextView
         android:id="@+id/addTaskHeaderText"
@@ -64,11 +73,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:text="@string/my_task_add_task_form"
         app:layout_constraintStart_toStartOf="@+id/taskTitleText"
-        app:layout_constraintTop_toBottomOf="@+id/taskTitleText"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/taskTitleText" />
 
     <TextView
         android:id="@+id/taskTallyText"
@@ -81,17 +90,54 @@
         app:layout_constraintTop_toBottomOf="@+id/add_task_button2"
         app:layout_constraintVertical_bias="0.197" />
 
-    <TextView
-        android:id="@+id/textSubmitted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/submitted_text"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_task_button2"
-        tools:visibility="invisible" />
+    <RadioGroup
+        android:id="@+id/teamAssignmentRadioGroup"
+        android:layout_width="349dp"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/taskTeamTextView"
+        app:layout_constraintTop_toBottomOf="@+id/taskTeamTextView">
+
+        <RadioButton
+            android:id="@+id/leelooRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/leelooTeamName"
+            android:onClick="onRadioButtonClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rubyRadioButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/rubyRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/rubyTeamName"
+            android:onClick="onRadioButtonClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/zorgRadioButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/leelooRadioButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.529" />
+
+        <RadioButton
+            android:id="@+id/zorgRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/zorgTeamName"
+            android:onClick="onRadioButtonClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/rubyRadioButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.529" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
