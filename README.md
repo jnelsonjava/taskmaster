@@ -29,6 +29,7 @@ An Android app for tracking tasks!
   - 10/27/20
     - connected to DynamoDB using Amplify
     - converted task add to save to DynamoDB instead of Room
+    - main page task list now updated from DynamoDB
 
 ## Main Page
 

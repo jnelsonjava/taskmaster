@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.ObjectsCompat;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.amplifyframework.core.model.Model;
 import com.amplifyframework.core.model.annotations.Index;
@@ -17,14 +20,16 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the TaskInstance type in your schema. */
 @SuppressWarnings("all")
+@Entity
 @ModelConfig(pluralName = "TaskInstances")
 public final class TaskInstance implements Model {
   public static final QueryField ID = field("id");
   public static final QueryField TITLE = field("title");
   public static final QueryField BODY = field("body");
   public static final QueryField STATE = field("state");
-  private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String", isRequired = true) String title;
+  @PrimaryKey
+  private final @ModelField(targetType="ID", isRequired = true) @NonNull String id;
+  private final @ModelField(targetType="String", isRequired = true) @NonNull String title;
   private final @ModelField(targetType="String") String body;
   private final @ModelField(targetType="String") String state;
   public String getId() {
@@ -43,7 +48,7 @@ public final class TaskInstance implements Model {
       return state;
   }
   
-  private TaskInstance(String id, String title, String body, String state) {
+  public TaskInstance(String id, String title, String body, String state) {
     this.id = id;
     this.title = title;
     this.body = body;

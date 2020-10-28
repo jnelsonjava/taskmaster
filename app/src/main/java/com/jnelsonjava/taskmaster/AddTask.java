@@ -51,26 +51,18 @@ public class AddTask extends AppCompatActivity {
                 EditText body = findViewById(R.id.editTextTaskDescription);
 
 //                Task task = new Task(title.getText().toString(), body.getText().toString(), "new");
-//                db.taskDAO().saveTask(task);
+//                db.taskInstanceDAO().saveTask(task);
 
 
-//                try {
-//                    Amplify.addPlugin(new AWSApiPlugin());
-//                    Amplify.configure(getApplicationContext());
-                    Log.i("AddTaskActivityAmplify", "Initialized Amplify");
+                TaskInstance task = TaskInstance.builder()
+                        .title(title.getText().toString())
+                        .body(body.getText().toString())
+                        .state("new")
+                        .build();
 
-                    TaskInstance task = TaskInstance.builder()
-                            .title(title.getText().toString())
-                            .body(body.getText().toString())
-                            .state("new")
-                            .build();
-
-                    Amplify.API.mutate(ModelMutation.create(task),
-                            response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
-                            error -> Log.e("AddTaskActivityAmplify", error.toString()));
-//                } catch (AmplifyException error) {
-//                    Log.e("AddTaskActivityAmplify", "Could not initialize Amplify", error);
-//                }
+                Amplify.API.mutate(ModelMutation.create(task),
+                        response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
+                        error -> Log.e("AddTaskActivityAmplify", error.toString()));
             }
         });
     }

@@ -1,9 +1,10 @@
 package com.jnelsonjava.taskmaster;
 
-import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@androidx.room.Database(entities = {Task.class}, version = 1)
+import com.amplifyframework.datastore.generated.model.TaskInstance;
+
+@androidx.room.Database(entities = {TaskInstance.class}, version = 3)
 public abstract class Database extends RoomDatabase {
-    public abstract TaskDAO taskDAO();
+    public abstract TaskInstanceDAO taskInstanceDAO();
 }

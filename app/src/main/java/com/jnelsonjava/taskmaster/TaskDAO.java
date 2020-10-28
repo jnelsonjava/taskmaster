@@ -11,9 +11,9 @@ public interface TaskDAO {
     @Insert
     public void saveTask(Task task);
 
-    @Query("SELECT * FROM task")
+    @Query("SELECT * FROM Task")
     List<Task> getTasks();
 
-    @Query("SELECT * FROM task ORDER BY id DESC")
+    @Query("SELECT * FROM Task ORDER BY id DESC")
     List<Task> getTasksSortByRecent();
 }
