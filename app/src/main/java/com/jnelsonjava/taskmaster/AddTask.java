@@ -5,11 +5,18 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskInstance;
 
 
 public class AddTask extends AppCompatActivity {
@@ -35,16 +42,27 @@ public class AddTask extends AppCompatActivity {
                 // TODO: change to toast
                 submittedText.setVisibility(View.VISIBLE);
 
-                db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
-                        .allowMainThreadQueries()
-                        .build();
+//                db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
+//                        .allowMainThreadQueries()
+//                        .build();
 
                 // get info from form, create task, and save task to db
                 EditText title = findViewById(R.id.editTextTaskTitle);
                 EditText body = findViewById(R.id.editTextTaskDescription);
 
-                Task task = new Task(title.getText().toString(), body.getText().toString(), "new");
-                db.taskDAO().saveTask(task);
+//                Task task = new Task(title.getText().toString(), body.getText().toString(), "new");
+//                db.taskInstanceDAO().saveTask(task);
+
+
+                TaskInstance task = TaskInstance.builder()
+                        .title(title.getText().toString())
+                        .body(body.getText().toString())
+                        .state("new")
+                        .build();
+
+                Amplify.API.mutate(ModelMutation.create(task),
+                        response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
+                        error -> Log.e("AddTaskActivityAmplify", error.toString()));
             }
         });
     }

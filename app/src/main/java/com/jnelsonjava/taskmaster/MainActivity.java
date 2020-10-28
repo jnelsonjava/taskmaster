@@ -9,9 +9,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +32,58 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        // initialize amplify
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MainActivityAmplify", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
+        }
+
+
+
+
+
+
+
+
         db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
                 .allowMainThreadQueries()
                 .build();
 
-        List<Task> tasks = db.taskDAO().getTasksSortByRecent();
+        List<TaskInstance> tasks = db.taskInstanceDAO().getTasksSortByRecent();
+
+//        Amplify.API.query(
+//                ModelQuery.list(TaskInstance.class)),
+//                response -> {
+//                    for (TaskInstance task : response.getData()) {
+//                        Log.i("MainActivityAmplify", task.getTitle());
+//                    }
+//                },
+//                error -> Log.e("MainActivityAmplify", "Query failure", error)
+//        );
+
+        List<TaskInstance> taskInstances = new ArrayList<>();
+
+        Amplify.API.query(
+                ModelQuery.list(TaskInstance.class),
+                response -> {
+                    for (TaskInstance taskInstance : response.getData()) {
+                        taskInstances.add(taskInstance);
+                    }
+//                    handler.sendEmptyMessage(1);
+                    Log.i("Amplify.queryitems", "Got this many items from dynamo " + taskInstances.size());
+
+
+                },
+                error -> Log.i("Amplify.queryitems", "Did not get items"));
 
         RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(tasks, this));
+        recyclerView.setAdapter(new TaskAdapter(taskInstances, this));
 
 
         Button addTaskButton = MainActivity.this.findViewById(R.id.add_task_button);
@@ -77,19 +127,21 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
                 .allowMainThreadQueries()
                 .build();
-        List<Task> tasks = db.taskDAO().getTasksSortByRecent();
+        List<TaskInstance> tasks = db.taskInstanceDAO().getTasksSortByRecent();
+
+
 
         RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(tasks, this));
+//        recyclerView.setAdapter(new TaskAdapter(tasks, this));
     }
 
     @Override
-    public void taskListener(Task task) {
+    public void taskListener(TaskInstance task) {
         Intent goToTaskDetailsIntent = new Intent(MainActivity.this, TaskDetail.class);
-        goToTaskDetailsIntent.putExtra("title", task.title);
-        goToTaskDetailsIntent.putExtra("body", task.body);
-        goToTaskDetailsIntent.putExtra("state", task.state);
+        goToTaskDetailsIntent.putExtra("title", task.getTitle());
+        goToTaskDetailsIntent.putExtra("body", task.getBody());
+        goToTaskDetailsIntent.putExtra("state", task.getState());
         this.startActivity(goToTaskDetailsIntent);
     }
 }
