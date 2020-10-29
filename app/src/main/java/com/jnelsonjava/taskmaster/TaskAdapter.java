@@ -8,15 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amplifyframework.datastore.generated.model.TaskInstance;
+import com.amplifyframework.datastore.generated.model.Task;
 
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
-    public List<TaskInstance> tasks;
+    public List<Task> tasks;
     public TaskListenable taskListener;
 
-    public TaskAdapter(List<TaskInstance> tasks, TaskListenable taskListener) {
+    public TaskAdapter(List<Task> tasks, TaskListenable taskListener) {
         this.tasks = tasks;
         this.taskListener = taskListener;
     }
@@ -49,7 +49,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         titleTextView.setText(holder.task.getTitle());
         bodyTextView.setText(holder.task.getBody());
-        stateTextView.setText(holder.task.getState());
+        stateTextView.setText(holder.task.getState().getName());
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
-        public TaskInstance task;
+        public Task task;
         public View itemView;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -68,6 +68,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public static interface TaskListenable {
-        public void taskListener(TaskInstance task);
+        public void taskListener(Task task);
     }
 }

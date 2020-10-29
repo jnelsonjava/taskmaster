@@ -6,14 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
+    <RadioGroup
+        android:id="@+id/userTeamAssignmentRadioGroup"
+        android:layout_width="349dp"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/taskTeamTextView3"
+        app:layout_constraintTop_toBottomOf="@+id/taskTeamTextView3">
+
+        <RadioButton
+            android:id="@+id/leelooSettingsRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/leelooTeamName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rubySettingsRadioButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/rubySettingsRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/rubyTeamName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/zorgSettingsRadioButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/leelooSettingsRadioButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.529" />
+
+        <RadioButton
+            android:id="@+id/zorgSettingsRadioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/zorgTeamName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/rubySettingsRadioButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.529" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/taskTeamTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/team_assignment_form_text"
+        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
     <Button
-        android:id="@+id/update_username_button"
+        android:id="@+id/update_settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/update_username"
-        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+        android:text="@string/update_settings"
+        app:layout_constraintStart_toStartOf="@+id/userTeamAssignmentRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/userTeamAssignmentRadioGroup" />
 
     <EditText
         android:id="@+id/editTextUsername"

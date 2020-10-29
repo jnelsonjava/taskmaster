@@ -11,7 +11,7 @@
     <string name="submitted_text">Submitted!</string>
     <string name="my_task_add_task_form">My Task</string>
     <string name="task_details_header_text">Task Details</string>
-    <string name="update_username">Update Username</string>
+    <string name="update_settings">Update Settings</string>
     <string name="my_name">My Name</string>
     <string name="username_title">Username</string>
     <string name="settings_header">Settings</string>
@@ -26,4 +26,8 @@
     <string name="task_body_fragment_text">Task Body</string>
     <string name="task_state_fragment_text">Task State</string>
     <string name="task_progress_text">Progress:</string>
+    <string name="team_assignment_form_text">Team Assignment</string>
+    <string name="leelooTeamName">Leeloo</string>
+    <string name="rubyTeamName">Ruby</string>
+    <string name="zorgTeamName">Zorg</string>
 </resources>

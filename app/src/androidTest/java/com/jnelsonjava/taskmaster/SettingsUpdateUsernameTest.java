@@ -49,7 +49,7 @@ public class SettingsUpdateUsernameTest {
         appCompatButton.perform(click());
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.update_username_button), withText("Update Username"),
+                allOf(withId(R.id.update_settings_button), withText("Update Username"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -114,7 +114,7 @@ public class SettingsUpdateUsernameTest {
         appCompatEditText3.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.update_username_button), withText("Update Username"),
+                allOf(withId(R.id.update_settings_button), withText("Update Username"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
