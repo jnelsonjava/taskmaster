@@ -41,7 +41,7 @@ An Android app for tracking tasks!
 
 ## Main Page
 
-![Main page](screenshots/main-activity-10-26-20.PNG)
+![Main page](screenshots/main-activity-10-28-20.PNG)
 
 ## Detail View
 
@@ -49,4 +49,9 @@ An Android app for tracking tasks!
 
 ## Add Task Form
 
-![Add task page](screenshots/add-task-activity-10-26-20.PNG)
+![Add task page](screenshots/add-task-activity-10-28-20.PNG)
+
+## Settings Page
+
+![Settings page](screenshots/settings-activity-10-28-20.PNG)
+
