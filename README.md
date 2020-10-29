@@ -36,6 +36,8 @@ An Android app for tracking tasks!
     - replaced submitted popup with toast on add task form
     - added hard coded radio button team selection to add task form
     - updated task save to match relations on DynamoDB
+    - removed connection to local Room storage
+    - task list now displays tasks of user's team
 
 ## Main Page
 

@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
 //    Database db;
     RecyclerView recyclerView;
+    List<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
         }
 
-        List<Task> tasks = new ArrayList<>();
+        tasks = new ArrayList<>();
 
 
         Handler handler = new Handler(Looper.getMainLooper(),
@@ -76,16 +77,20 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 //
 //        List<TaskInstance> tasks = db.taskInstanceDAO().getTasksSortByRecent();
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 
         Amplify.API.query(
                 ModelQuery.list(Task.class),
                 response -> {
                     for (Task task : response.getData()) {
-                        tasks.add(task);
+                        if (task.getTeam().getName().equals(preferences.getString("team", null))) {
+                            tasks.add(task);
+                            Log.i("a task", task.toString());
+                        }
                     }
                     handler.sendEmptyMessage(1);
                     Log.i("Amplify.queryitems", "Got this many items from dynamo " + tasks.size());
-
 
                 },
                 error -> Log.i("Amplify.queryitems", "Did not get items")
@@ -105,8 +110,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                 onCreated -> {
                     Log.i("Amplify.Subscription", "Todo create subscription received: " + ((Task) onCreated.getData()).getTitle());
                     Task newTask = (Task) onCreated.getData();
-                    tasks.add(newTask);
-                    recyclerView.getAdapter().notifyItemInserted(1);
+                    if (newTask.getTeam().getName().equals(preferences.getString("team", null))) {
+                        tasks.add(newTask);
+                        recyclerView.getAdapter().notifyItemInserted(1);
+                    }
                 },
                 onFailure -> Log.e("Amplify.Subscription", "Subscription failed", onFailure),
                 () -> Log.i("Amplify.Subscription", "Subscription completed")
@@ -160,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
         RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(new TaskAdapter(tasks, this));
+        recyclerView.setAdapter(new TaskAdapter(tasks, this));
     }
 
     @Override
