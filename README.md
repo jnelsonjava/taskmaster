@@ -38,6 +38,9 @@ An Android app for tracking tasks!
     - updated task save to match relations on DynamoDB
     - removed connection to local Room storage
     - task list now displays tasks of user's team
+  - 11/02/20
+    - added Cognito user authentication plugin
+    - created activities for signup, user confirmation, and login
 
 ## Main Page
 
