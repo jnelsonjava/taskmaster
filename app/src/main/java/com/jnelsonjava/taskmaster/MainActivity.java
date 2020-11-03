@@ -28,7 +28,11 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MainActivityAmplify", "Initialized Amplify");
@@ -154,6 +159,9 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                 onFailure -> Log.e("Amplify.Subscription", "Subscription failed", onFailure),
                 () -> Log.i("Amplify.Subscription", "Subscription completed")
         );
+
+        // testing S3 link
+        uploadFile();
 
         Button loginButton = MainActivity.this.findViewById(R.id.loginMainActivityButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -273,6 +281,25 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                 "pass1234",
                 result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
                 error -> Log.e("AuthQuickstart", error.toString())
+        );
+    }
+
+    private void uploadFile() {
+        File exampleFile = new File(getApplicationContext().getFilesDir(), "ExampleKey");
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+            writer.append("Example file contents");
+            writer.close();
+        } catch (Exception exception) {
+            Log.e("Amplify.S3", "Upload failed", exception);
+        }
+
+        Amplify.Storage.uploadFile(
+                "ExampleKey",
+                exampleFile,
+                result -> Log.i("Amplify.S3", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("Amplify.S3", "Upload failed", storageFailure)
         );
     }
 }
