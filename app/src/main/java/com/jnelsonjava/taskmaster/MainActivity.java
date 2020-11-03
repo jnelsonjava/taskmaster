@@ -23,6 +23,9 @@ import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
@@ -43,12 +46,43 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         // initialize amplify
         try {
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MainActivityAmplify", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
         }
+
+        Handler handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
+            if (message.arg1 == 0) {
+                Log.i("Amplify.login", "handler: they were not logged in");
+            } else if (message.arg1 == 1){
+                Log.i("Amplify.login", "handler: they were logged in!");
+            } else {
+                Log.i("Amplify.login", "handler: ?????????");
+            }
+            return false;
+        });
+
+        Amplify.Auth.fetchAuthSession(
+                result -> {
+                    Log.i("AmplifyQuickstart", result.toString());
+                    Message message = new Message();
+                    if (result.isSignedIn()) {
+                        message.arg1 = 1;
+                    } else {
+                        message.arg1 = 0;
+                    }
+                    handleCheckLoggedIn.sendMessage(message);
+                },
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+
+//        addTestUser();
+//        verifyTestUser();
+//        signInTestUser();
+
 
         tasks = new ArrayList<>();
 
@@ -68,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                     Toast.makeText(this, "New Task!", Toast.LENGTH_SHORT).show();
                     return false;
                 });
+
+
 
 
 
@@ -119,6 +155,36 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                 () -> Log.i("Amplify.Subscription", "Subscription completed")
         );
 
+        Button loginButton = MainActivity.this.findViewById(R.id.loginMainActivityButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("should be moving to login activity");
+                Intent goToLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                MainActivity.this.startActivity(goToLoginIntent);
+            }
+        });
+
+        Button logoutButton = MainActivity.this.findViewById(R.id.logoutMainActivityButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Amplify.Auth.signOut(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+            }
+        });
+
+        Button signUpButton = MainActivity.this.findViewById(R.id.signUpMainActivityButton);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("should be moving to sign up activity");
+                Intent goToSignUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
+                MainActivity.this.startActivity(goToSignUpIntent);
+            }
+        });
 
         Button addTaskButton = MainActivity.this.findViewById(R.id.add_task_button);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -153,10 +219,13 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
     protected void  onResume() {
         super.onResume();
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        TextView taskListTitle = findViewById(R.id.taskListTitleTextView);
-        String updatedText = preferences.getString("username", "") + " tasks";
-        taskListTitle.setText(updatedText);
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        String updatedText = preferences.getString("username", "") + " tasks";
+        if (Amplify.Auth.getCurrentUser() != null) {
+            TextView taskListTitle = findViewById(R.id.taskListTitleTextView);
+            String updatedText = Amplify.Auth.getCurrentUser().getUsername() + " tasks";
+            taskListTitle.setText(updatedText);
+        }
 
 //        db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
 //                .allowMainThreadQueries()
@@ -177,5 +246,33 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("body", task.getBody());
         goToTaskDetailsIntent.putExtra("state", task.getState().getName());
         this.startActivity(goToTaskDetailsIntent);
+    }
+
+    public void addTestUser() {
+        Amplify.Auth.signUp(
+                "jack",
+                "pass1234",
+                AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "jnelson.java@gmail.com").build(),
+                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+                error -> Log.e("AuthQuickStart", "Sign up failed", error)
+        );
+    }
+
+    public void verifyTestUser() {
+        Amplify.Auth.confirmSignUp(
+                "jack",
+                "195622",
+                result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
+    }
+
+    public void signInTestUser() {
+        Amplify.Auth.signIn(
+                "jack",
+                "pass1234",
+                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
     }
 }

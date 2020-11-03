@@ -38,10 +38,16 @@ An Android app for tracking tasks!
     - updated task save to match relations on DynamoDB
     - removed connection to local Room storage
     - task list now displays tasks of user's team
+  - 11/02/20
+    - added Cognito user authentication plugin
+    - created activities for signup, user confirmation, and login
+    - linked new activites to user authentication operations
+    - added logout button
+    - adjusted main page to display signed in username
 
 ## Main Page
 
-![Main page](screenshots/main-activity-10-28-20.PNG)
+![Main page](screenshots/main-activity-11-02-20.PNG)
 
 ## Detail View
 
@@ -54,4 +60,8 @@ An Android app for tracking tasks!
 ## Settings Page
 
 ![Settings page](screenshots/settings-activity-10-28-20.PNG)
+
+## Signup Page
+
+![Signup Page](screenshots/signup-activity-11-02-20.PNG)
 

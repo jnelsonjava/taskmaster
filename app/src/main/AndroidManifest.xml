@@ -12,11 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.jnelsonjava.taskmaster.Settings"></activity>
-        <activity android:name="com.jnelsonjava.taskmaster.TaskDetail" />
-        <activity android:name="com.jnelsonjava.taskmaster.AllTasks" />
-        <activity android:name="com.jnelsonjava.taskmaster.AddTask" />
-        <activity android:name="com.jnelsonjava.taskmaster.MainActivity">
+        <activity android:name=".SignUpConfirmationActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".Settings" />
+        <activity android:name=".TaskDetail" />
+        <activity android:name=".AllTasks" />
+        <activity android:name=".AddTask" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

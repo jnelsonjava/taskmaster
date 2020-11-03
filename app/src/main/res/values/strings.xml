@@ -30,4 +30,11 @@
     <string name="leelooTeamName">Leeloo</string>
     <string name="rubyTeamName">Ruby</string>
     <string name="zorgTeamName">Zorg</string>
+    <string name="sign_up_activity_header">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="sign_up_submit_button">Sign Up</string>
+    <string name="sign_up_main_activity_button">Sign Up</string>
 </resources>
