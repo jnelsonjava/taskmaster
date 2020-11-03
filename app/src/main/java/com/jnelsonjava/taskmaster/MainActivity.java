@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
 //        addTestUser();
 //        verifyTestUser();
-        signInTestUser();
+//        signInTestUser();
 
 
         tasks = new ArrayList<>();
@@ -165,6 +165,17 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             }
         });
 
+        Button logoutButton = MainActivity.this.findViewById(R.id.logoutMainActivityButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Amplify.Auth.signOut(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+            }
+        });
+
         Button signUpButton = MainActivity.this.findViewById(R.id.signUpMainActivityButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,10 +219,13 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
     protected void  onResume() {
         super.onResume();
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        TextView taskListTitle = findViewById(R.id.taskListTitleTextView);
-        String updatedText = preferences.getString("username", "") + " tasks";
-        taskListTitle.setText(updatedText);
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        String updatedText = preferences.getString("username", "") + " tasks";
+        if (Amplify.Auth.getCurrentUser() != null) {
+            TextView taskListTitle = findViewById(R.id.taskListTitleTextView);
+            String updatedText = Amplify.Auth.getCurrentUser().getUsername() + " tasks";
+            taskListTitle.setText(updatedText);
+        }
 
 //        db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
 //                .allowMainThreadQueries()
@@ -237,27 +251,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
     public void addTestUser() {
         Amplify.Auth.signUp(
                 "jack",
-                "asecurepassword",
+                "pass1234",
                 AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "jnelson.java@gmail.com").build(),
                 result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
                 error -> Log.e("AuthQuickStart", "Sign up failed", error)
         );
-//
-//        Amplify.Auth.signUp(
-//                "username",
-//                "Password123",
-//                AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "my@email.com").build(),
-//                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-//                error -> Log.e("AuthQuickStart", "Sign up failed", error)
-//        );
-//
-//        Amplify.Auth.signUp(
-//                "username",
-//                "Password123",
-//                AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "my@email.com").build(),
-//                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-//                error -> Log.e("AuthQuickStart", "Sign up failed", error)
-//        );
     }
 
     public void verifyTestUser() {
@@ -272,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
     public void signInTestUser() {
         Amplify.Auth.signIn(
                 "jack",
-                "asecurepassword",
+                "pass1234",
                 result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
                 error -> Log.e("AuthQuickstart", error.toString())
         );

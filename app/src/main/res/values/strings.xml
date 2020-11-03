@@ -36,4 +36,5 @@
     <string name="email">Email</string>
     <string name="login">Login</string>
     <string name="sign_up_submit_button">Sign Up</string>
+    <string name="sign_up_main_activity_button">Sign Up</string>
 </resources>

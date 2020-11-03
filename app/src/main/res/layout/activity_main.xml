@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Login"
+        android:text="@string/login"
         app:layout_constraintBottom_toTopOf="@+id/add_task_button"
         app:layout_constraintStart_toStartOf="@+id/add_task_button" />
 
@@ -98,7 +98,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Sign Up"
+        android:text="@string/sign_up_main_activity_button"
         app:layout_constraintBottom_toTopOf="@+id/settingsButton"
         app:layout_constraintEnd_toEndOf="@+id/settingsButton" />
+
+    <Button
+        android:id="@+id/logoutMainActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        app:layout_constraintEnd_toStartOf="@+id/signUpMainActivityButton"
+        app:layout_constraintStart_toEndOf="@+id/loginMainActivityButton"
+        app:layout_constraintTop_toTopOf="@+id/loginMainActivityButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
