@@ -1,39 +1,195 @@
 # this is an auto generated file. This will be overwritten
-mutation CreateTaskInstance(
-  $input: CreateTaskInstanceInput!
-  $condition: ModelTaskInstanceConditionInput
+mutation CreateTask(
+  $input: CreateTaskInput!
+  $condition: ModelTaskConditionInput
 ) {
-  createTaskInstance(input: $input, condition: $condition) {
+  createTask(input: $input, condition: $condition) {
     id
+    taskID
+    stateID
     title
     body
-    state
+    filekey
+    state {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
 }
-mutation UpdateTaskInstance(
-  $input: UpdateTaskInstanceInput!
-  $condition: ModelTaskInstanceConditionInput
+mutation UpdateTask(
+  $input: UpdateTaskInput!
+  $condition: ModelTaskConditionInput
 ) {
-  updateTaskInstance(input: $input, condition: $condition) {
+  updateTask(input: $input, condition: $condition) {
     id
+    taskID
+    stateID
     title
     body
-    state
+    filekey
+    state {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
 }
-mutation DeleteTaskInstance(
-  $input: DeleteTaskInstanceInput!
-  $condition: ModelTaskInstanceConditionInput
+mutation DeleteTask(
+  $input: DeleteTaskInput!
+  $condition: ModelTaskConditionInput
 ) {
-  deleteTaskInstance(input: $input, condition: $condition) {
+  deleteTask(input: $input, condition: $condition) {
     id
+    taskID
+    stateID
     title
     body
-    state
+    filekey
+    state {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateState(
+  $input: CreateStateInput!
+  $condition: ModelStateConditionInput
+) {
+  createState(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateState(
+  $input: UpdateStateInput!
+  $condition: ModelStateConditionInput
+) {
+  updateState(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteState(
+  $input: DeleteStateInput!
+  $condition: ModelStateConditionInput
+) {
+  deleteState(input: $input, condition: $condition) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateTeam(
+  $input: CreateTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  createTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        taskID
+        stateID
+        title
+        body
+        filekey
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateTeam(
+  $input: UpdateTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  updateTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        taskID
+        stateID
+        title
+        body
+        filekey
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteTeam(
+  $input: DeleteTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  deleteTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        taskID
+        stateID
+        title
+        body
+        filekey
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
     createdAt
     updatedAt
   }

@@ -48,6 +48,8 @@ An Android app for tracking tasks!
     - connected S3 bucket
     - added file attachement to add task options
     - added image file retrieval in task details
+    - updated schema to relate S3 storage key to Task objects
+    - added image view on task details
 
 ## Main Page
 

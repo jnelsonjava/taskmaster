@@ -242,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("title", task.getTitle());
         goToTaskDetailsIntent.putExtra("body", task.getBody());
         goToTaskDetailsIntent.putExtra("state", task.getState().getName());
+        goToTaskDetailsIntent.putExtra("filekey", task.getFilekey());
         this.startActivity(goToTaskDetailsIntent);
     }
 }

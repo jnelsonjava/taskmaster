@@ -40,7 +40,7 @@ public class AddTask extends AppCompatActivity {
     Map<String, State> states;
     Map<String, Team> teams;
     File attachFile;
-    String globalKey = "happyFile";
+    String globalKey = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +105,7 @@ public class AddTask extends AppCompatActivity {
                 EditText body = findViewById(R.id.editTextTaskDescription);
 
                 if (attachFile.exists()) {
+                    globalKey = attachFile.getName() + Math.random();
                     uploadFile(attachFile, globalKey);
                 }
 
@@ -116,6 +117,7 @@ public class AddTask extends AppCompatActivity {
                         .stateId(states.get("new").getId())
                         .title(title.getText().toString())
                         .body(body.getText().toString())
+                        .filekey(globalKey)
                         .team(teams.get(teamAssignment))
                         .build();
 

@@ -33,7 +33,7 @@ public class TaskDetail extends AppCompatActivity {
         String stateText = "Progress: " + intent.getExtras().getString("state");
         taskState.setText(stateText);
 
-        downloadFile("happyFile");
+        downloadFile(intent.getExtras().getString("filekey"));
     }
 
     @Override
@@ -49,6 +49,9 @@ public class TaskDetail extends AppCompatActivity {
                 new File(getApplicationContext().getFilesDir() + "/" + fileKey + ".txt"),
                 result -> {
                     Log.i("Amplify.S3download", "Successfully downloaded: " + result.getFile().getName());
+
+
+
                     ImageView taskImage = findViewById(R.id.taskDetailImage);
                     taskImage.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
                 },
