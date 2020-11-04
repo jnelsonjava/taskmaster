@@ -23,11 +23,10 @@ import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.api.graphql.model.ModelSubscription;
-import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
-import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MainActivityAmplify", "Initialized Amplify");
@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
 
-//        addTestUser();
-//        verifyTestUser();
-//        signInTestUser();
 
 
         tasks = new ArrayList<>();
@@ -245,34 +242,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("title", task.getTitle());
         goToTaskDetailsIntent.putExtra("body", task.getBody());
         goToTaskDetailsIntent.putExtra("state", task.getState().getName());
+        goToTaskDetailsIntent.putExtra("filekey", task.getFilekey());
         this.startActivity(goToTaskDetailsIntent);
-    }
-
-    public void addTestUser() {
-        Amplify.Auth.signUp(
-                "jack",
-                "pass1234",
-                AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "jnelson.java@gmail.com").build(),
-                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-                error -> Log.e("AuthQuickStart", "Sign up failed", error)
-        );
-    }
-
-    public void verifyTestUser() {
-        Amplify.Auth.confirmSignUp(
-                "jack",
-                "195622",
-                result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
-                error -> Log.e("AuthQuickstart", error.toString())
-        );
-    }
-
-    public void signInTestUser() {
-        Amplify.Auth.signIn(
-                "jack",
-                "pass1234",
-                result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
-                error -> Log.e("AuthQuickstart", error.toString())
-        );
     }
 }

@@ -1,25 +1,118 @@
 # this is an auto generated file. This will be overwritten
-query GetTaskInstance($id: ID!) {
-  getTaskInstance(id: $id) {
+query GetTask($id: ID!) {
+  getTask(id: $id) {
     id
+    taskID
+    stateID
     title
     body
-    state
+    filekey
+    state {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
     createdAt
     updatedAt
   }
 }
-query ListTaskInstances(
-  $filter: ModelTaskInstanceFilterInput
+query ListTasks(
+  $filter: ModelTaskFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listTaskInstances(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      taskID
+      stateID
       title
       body
-      state
+      filekey
+      state {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      team {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetState($id: ID!) {
+  getState(id: $id) {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
+query ListStates(
+  $filter: ModelStateFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listStates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetTeam($id: ID!) {
+  getTeam(id: $id) {
+    id
+    name
+    tasks {
+      items {
+        id
+        taskID
+        stateID
+        title
+        body
+        filekey
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListTeams(
+  $filter: ModelTeamFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      tasks {
+        nextToken
+      }
       createdAt
       updatedAt
     }

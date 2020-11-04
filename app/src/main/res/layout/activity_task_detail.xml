@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/taskBodyTextView"
         android:layout_width="341dp"
-        android:layout_height="368dp"
+        android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:text="@string/loremIpsumText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,4 +38,13 @@
         android:text="@string/task_progress_text"
         app:layout_constraintStart_toStartOf="@+id/taskTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/taskTitleTextView" />
+
+    <ImageView
+        android:id="@+id/taskDetailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskBodyTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

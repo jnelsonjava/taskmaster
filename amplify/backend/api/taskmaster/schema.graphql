@@ -5,6 +5,7 @@ type Task @model
   stateID: ID!
   title: String!
   body: String
+  filekey: String
   state: State @connection(fields: ["stateID"])
   team: Team @connection(fields: ["taskID"])
 }

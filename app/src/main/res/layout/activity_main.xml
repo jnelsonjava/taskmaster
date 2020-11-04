@@ -110,4 +110,5 @@
         app:layout_constraintEnd_toStartOf="@+id/signUpMainActivityButton"
         app:layout_constraintStart_toEndOf="@+id/loginMainActivityButton"
         app:layout_constraintTop_toTopOf="@+id/loginMainActivityButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
