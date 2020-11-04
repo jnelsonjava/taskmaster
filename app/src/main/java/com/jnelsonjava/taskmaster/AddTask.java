@@ -1,9 +1,12 @@
 package com.jnelsonjava.taskmaster;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +23,10 @@ import com.amplifyframework.datastore.generated.model.State;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +39,8 @@ public class AddTask extends AppCompatActivity {
     String teamAssignment;
     Map<String, State> states;
     Map<String, Team> teams;
+    File attachFile;
+    String globalKey = "happyFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +78,13 @@ public class AddTask extends AppCompatActivity {
                 error -> Log.e("Amplify.queryitems", "Did not get teams")
         );
 
+        Button selectFileButton = AddTask.this.findViewById(R.id.chooseFileButton);
+        selectFileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                retrieveFile();
+            }
+        });
 
         Button addTaskButton = AddTask.this.findViewById(R.id.add_task_button2);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +104,9 @@ public class AddTask extends AppCompatActivity {
                 EditText title = findViewById(R.id.editTextTaskTitle);
                 EditText body = findViewById(R.id.editTextTaskDescription);
 
+                if (attachFile.exists()) {
+                    uploadFile(attachFile, globalKey);
+                }
 
 //                Task task = new Task(title.getText().toString(), body.getText().toString(), "new");
 //                db.taskInstanceDAO().saveTask(task);
@@ -103,18 +122,6 @@ public class AddTask extends AppCompatActivity {
                 Amplify.API.mutate(ModelMutation.create(task),
                         response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
                         error -> Log.e("AddTaskActivityAmplify", error.toString()));
-
-                // LEAVE THIS COMMENTED OUT, TEMPORARY USAGE FOR STATIC TABLE CREATION
-//                Team team = Team.builder()
-//                        .name("Zorg")
-//                        .build();
-//
-//                Amplify.API.mutate(ModelMutation.create(team),
-//                        response -> Log.i("Amplify.AddTeam", "successfully added team"),
-//                        error -> Log.e("Amplify.AddTeam", error.toString())
-//                );
-                // END OF COMMENT SECTION
-
             }
         });
     }
@@ -130,5 +137,59 @@ public class AddTask extends AppCompatActivity {
         Intent intent = new Intent(AddTask.this, MainActivity.class);
         AddTask.this.startActivity(intent);
         return true;
+    }
+
+    public void retrieveFile() {
+        Intent getPictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getPictureIntent.setType("*/*");
+
+        // below is a sample of getting specific filetypes
+//        getPictureIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{".png",".jpg",".PNG"});
+
+        // this makes files immediately accessible
+//        getPictureIntent.addCategory(Intent.CATEGORY_OPENABLE);
+//        getPictureIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+
+        // opens file picker with files matching type
+//        startActivity(getPictureIntent);
+
+        startActivityForResult(getPictureIntent, 987); // request code is custom
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 987) {
+            Log.i("Amplify.resultImage", "image pick process returned");
+            attachFile = new File(getFilesDir(), "tempfile");
+
+            System.out.println(data.getDataString());
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                FileUtils.copy(inputStream, new FileOutputStream(attachFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("does it exist" + attachFile.exists());
+            TextView fileStatusText = AddTask.this.findViewById(R.id.selectedFileText);
+            String fileAttached = "File Attached";
+            fileStatusText.setText(fileAttached);
+//            uploadFile(attachFile, "placeholderKey");
+        } else {
+            Log.i("Amplify.resultActivity", "the request code does not match any expected");
+        }
+    }
+
+    public void uploadFile(File file, String fileKey) {
+        Amplify.Storage.uploadFile(
+                fileKey,
+                file,
+                result -> Log.i("Amplify.S3", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("Amplify.S3", "Upload failed", storageFailure)
+        );
     }
 }

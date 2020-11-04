@@ -44,6 +44,10 @@ An Android app for tracking tasks!
     - linked new activites to user authentication operations
     - added logout button
     - adjusted main page to display signed in username
+  - 11/03/20
+    - connected S3 bucket
+    - added file attachement to add task options
+    - added image file retrieval in task details
 
 ## Main Page
 

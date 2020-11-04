@@ -6,14 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".AddTask">
 
+    <TextView
+        android:id="@+id/taskFileText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/attach_file"
+        app:layout_constraintStart_toStartOf="@+id/taskTeamTextView"
+        app:layout_constraintTop_toBottomOf="@+id/userTeamAssignmentRadioGroup" />
+
     <Button
         android:id="@+id/add_task_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="@string/add_task_button_text"
-        app:layout_constraintStart_toStartOf="@+id/editTextTaskDescription"
-        app:layout_constraintTop_toBottomOf="@+id/userTeamAssignmentRadioGroup" />
+        app:layout_constraintStart_toStartOf="@+id/selectedFileText"
+        app:layout_constraintTop_toBottomOf="@+id/selectedFileText" />
 
     <EditText
         android:id="@+id/editTextTaskDescription"
@@ -79,17 +88,6 @@
         app:layout_constraintStart_toStartOf="@+id/taskTitleText"
         app:layout_constraintTop_toBottomOf="@+id/taskTitleText" />
 
-    <TextView
-        android:id="@+id/taskTallyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:text="@string/total_tasks_holding_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/addTaskHeaderText"
-        app:layout_constraintTop_toBottomOf="@+id/add_task_button2"
-        app:layout_constraintVertical_bias="0.197" />
-
     <RadioGroup
         android:id="@+id/userTeamAssignmentRadioGroup"
         android:layout_width="349dp"
@@ -139,5 +137,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.529" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/selectedFileText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/no_file_selected"
+        app:layout_constraintStart_toStartOf="@+id/taskFileText"
+        app:layout_constraintTop_toBottomOf="@+id/taskFileText" />
+
+    <Button
+        android:id="@+id/chooseFileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select File"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedFileText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/selectedFileText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
