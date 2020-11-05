@@ -50,6 +50,9 @@ An Android app for tracking tasks!
     - added image file retrieval in task details
     - updated schema to relate S3 storage key to Task objects
     - added image view on task details
+  - 11/04/20
+    - linked to Firebase for push notifications
+    - attached Pinpoint push notifications through Firebase
 
 ## Main Page
 
@@ -70,4 +73,20 @@ An Android app for tracking tasks!
 ## Signup Page
 
 ![Signup Page](screenshots/signup-activity-11-02-20.PNG)
+
+## Firebase Console Message
+
+![Firebase Console Message](screenshots/firebase-console.PNG)
+
+## Firebase Phone Notification
+
+![Firebase Phone Notification](screenshots/firebase-notification.PNG)
+
+## Pinpoint Console
+
+![Pinpoint Console](screenshots/pinpoint-console.PNG)
+
+## Initial Pinpoint Campain Metrics
+
+![Initial Pinpoint Campain Metrics](screenshots/pinpoint-campain-metrics.PNG)
 
