@@ -53,6 +53,9 @@ An Android app for tracking tasks!
   - 11/04/20
     - linked to Firebase for push notifications
     - attached Pinpoint push notifications through Firebase
+  - 11/05/20
+    - added Amplify Analytics plugin
+    - created event tracking Amplify Initialization
 
 ## Main Page
 

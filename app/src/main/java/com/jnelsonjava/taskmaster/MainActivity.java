@@ -26,6 +26,8 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
             Amplify.configure(getApplicationContext());
 
             Log.i("MainActivityAmplify", "Initialized Amplify");
@@ -109,6 +112,13 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         }
 
         getPinpointManager(getApplicationContext());
+
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("InitializedAmplify")
+                .addProperty("Successful", true)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
 
         Handler handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
@@ -262,6 +272,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("THIS IS THE RESOURCE NAME: " + v.getResources().getResourceTypeName(v.getId()));
+                Log.i("ResourceID", "THIS IS THE RESOURCE NAME: " + v.getResources().getResourceTypeName(v.getId()));
                 Intent goToSettingsIntent = new Intent(MainActivity.this, Settings.class);
                 MainActivity.this.startActivity(goToSettingsIntent);
             }
@@ -301,4 +313,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("filekey", task.getFilekey());
         this.startActivity(goToTaskDetailsIntent);
     }
+
+//    public void
 }
