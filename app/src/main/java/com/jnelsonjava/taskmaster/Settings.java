@@ -60,12 +60,14 @@ public class Settings extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view) {
+        EventTracker.trackButtonClicked(view);
         RadioButton radioButton = (RadioButton) view;
         team = radioButton.getText().toString();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        EventTracker.trackButtonClicked((View) item);
         Intent intent = new Intent(Settings.this, MainActivity.class);
         Settings.this.startActivity(intent);
         return true;

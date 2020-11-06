@@ -24,6 +24,7 @@ public class SignUpConfirmationActivity extends AppCompatActivity {
         confirmationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 EditText confirmationNumber = findViewById(R.id.confirmationNumberEditText);
                 Amplify.Auth.confirmSignUp(
                         intent.getExtras().getString("newUser"),

@@ -14,7 +14,7 @@ An Android app for tracking tasks!
     - created settings page
     - added task buttons with intents to task details
     - task list title dynamic to username in settings
-   - 10/21/20
+  - 10/21/20
     - task class created
     - set up recycler view for task list
     - made task list clickable to view details
@@ -53,6 +53,11 @@ An Android app for tracking tasks!
   - 11/04/20
     - linked to Firebase for push notifications
     - attached Pinpoint push notifications through Firebase
+  - 11/05/20
+    - added Amplify Analytics plugin
+    - created event tracking App Start
+    - added event tracking user button clicks
+    - linked Pinpoint stream to Kinesis
 
 ## Main Page
 
@@ -89,4 +94,12 @@ An Android app for tracking tasks!
 ## Initial Pinpoint Campain Metrics
 
 ![Initial Pinpoint Campain Metrics](screenshots/pinpoint-campain-metrics.PNG)
+
+## Kinesis Metrics Sample
+
+![Kinesis Metrics Sample](screenshots/kinesis-analytics.PNG)
+
+## Pinpoint Analytics
+
+![Pinpoint Analytics](screenshots/pinpoint-analytics.PNG)
 

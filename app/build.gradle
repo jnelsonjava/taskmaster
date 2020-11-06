@@ -73,4 +73,7 @@ dependencies {
 
     implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.11.+'
     implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.11.+@aar'){ transitive = true}
+
+    // Analytics
+    implementation 'com.amplifyframework:aws-analytics-pinpoint:1.4.1'
 }

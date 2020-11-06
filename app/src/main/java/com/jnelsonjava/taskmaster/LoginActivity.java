@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 EditText username = findViewById(R.id.loginUsernameEditText);
                 EditText password = findViewById(R.id.loginPasswordEditText);
 

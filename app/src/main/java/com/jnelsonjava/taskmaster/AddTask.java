@@ -82,6 +82,7 @@ public class AddTask extends AppCompatActivity {
         selectFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 retrieveFile();
             }
         });
@@ -90,6 +91,7 @@ public class AddTask extends AppCompatActivity {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 Toast.makeText(AddTask.this, "Submitted!", Toast.LENGTH_SHORT).show();
 
 //                db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
@@ -129,6 +131,7 @@ public class AddTask extends AppCompatActivity {
     }
 
     public void onRadioButtonClicked(View view) {
+        EventTracker.trackButtonClicked(view);
         RadioButton radioButton = (RadioButton) view;
         teamAssignment = radioButton.getText().toString();
 //        System.out.println("TeamRadioButtonChecked: " + teamAssignment);
@@ -136,6 +139,7 @@ public class AddTask extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        EventTracker.trackButtonClicked((View) item);
         Intent intent = new Intent(AddTask.this, MainActivity.class);
         AddTask.this.startActivity(intent);
         return true;

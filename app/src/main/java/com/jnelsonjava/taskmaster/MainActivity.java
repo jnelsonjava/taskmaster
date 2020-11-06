@@ -26,6 +26,8 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -101,7 +103,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
             Amplify.configure(getApplicationContext());
+
+            EventTracker.trackAppStart();
 
             Log.i("MainActivityAmplify", "Initialized Amplify");
         } catch (AmplifyException error) {
@@ -212,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 System.out.println("should be moving to login activity");
                 Intent goToLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(goToLoginIntent);
@@ -222,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 Amplify.Auth.signOut(
                         () -> Log.i("AuthQuickstart", "Signed out successfully"),
                         error -> Log.e("AuthQuickstart", error.toString())
@@ -233,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 System.out.println("should be moving to sign up activity");
                 Intent goToSignUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
                 MainActivity.this.startActivity(goToSignUpIntent);
@@ -243,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 System.out.println("should be moving to add tasks activity");
                 Intent goToAddTaskIntent = new Intent(MainActivity.this, AddTask.class);
                 MainActivity.this.startActivity(goToAddTaskIntent);
@@ -253,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         allTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 Intent goToAllTasksIntent = new Intent(MainActivity.this, AllTasks.class);
                 MainActivity.this.startActivity(goToAllTasksIntent);
             }
@@ -262,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 Intent goToSettingsIntent = new Intent(MainActivity.this, Settings.class);
                 MainActivity.this.startActivity(goToSettingsIntent);
             }

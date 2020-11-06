@@ -1,0 +1,22 @@
+{
+    "appName": "TaskMasterfgWcU",
+    "roleName": "pinpointLambdaRolefa8001ef",
+    "cloudformationPolicyName": "cloudformationPolicyfa8001ef",
+    "cloudWatchPolicyName": "cloudWatchPolicyfa8001ef",
+    "pinpointPolicyName": "pinpointPolicyfa8001ef",
+    "authPolicyName": "pinpoint_amplify_fa8001ef",
+    "unauthPolicyName": "pinpoint_amplify_fa8001ef",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
+    "appId": "12183c972ecb4c7891b74a9b06b85d61"
+}
