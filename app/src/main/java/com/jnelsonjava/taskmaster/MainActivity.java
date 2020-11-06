@@ -106,19 +106,14 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
             Amplify.configure(getApplicationContext());
 
+            EventTracker.trackAppStart();
+
             Log.i("MainActivityAmplify", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
         }
 
         getPinpointManager(getApplicationContext());
-
-        AnalyticsEvent event = AnalyticsEvent.builder()
-                .name("InitializedAmplify")
-                .addProperty("Successful", true)
-                .build();
-
-        Amplify.Analytics.recordEvent(event);
 
         Handler handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
@@ -222,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 System.out.println("should be moving to login activity");
                 Intent goToLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
                 MainActivity.this.startActivity(goToLoginIntent);
@@ -232,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 Amplify.Auth.signOut(
                         () -> Log.i("AuthQuickstart", "Signed out successfully"),
                         error -> Log.e("AuthQuickstart", error.toString())
@@ -243,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 System.out.println("should be moving to sign up activity");
                 Intent goToSignUpIntent = new Intent(MainActivity.this, SignUpActivity.class);
                 MainActivity.this.startActivity(goToSignUpIntent);
@@ -253,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 System.out.println("should be moving to add tasks activity");
                 Intent goToAddTaskIntent = new Intent(MainActivity.this, AddTask.class);
                 MainActivity.this.startActivity(goToAddTaskIntent);
@@ -263,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         allTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 Intent goToAllTasksIntent = new Intent(MainActivity.this, AllTasks.class);
                 MainActivity.this.startActivity(goToAllTasksIntent);
             }
@@ -272,8 +272,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("THIS IS THE RESOURCE NAME: " + v.getResources().getResourceTypeName(v.getId()));
-                Log.i("ResourceID", "THIS IS THE RESOURCE NAME: " + v.getResources().getResourceTypeName(v.getId()));
+                EventTracker.trackButtonClicked(v);
                 Intent goToSettingsIntent = new Intent(MainActivity.this, Settings.class);
                 MainActivity.this.startActivity(goToSettingsIntent);
             }
@@ -313,6 +312,4 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("filekey", task.getFilekey());
         this.startActivity(goToTaskDetailsIntent);
     }
-
-//    public void
 }

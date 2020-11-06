@@ -24,6 +24,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EventTracker.trackButtonClicked(v);
                 EditText username = findViewById(R.id.signUpUsernameEditText);
                 EditText password = findViewById(R.id.signUpPasswordEditText);
                 EditText email = findViewById(R.id.signUpEmailEditText);
@@ -41,15 +42,5 @@ public class SignUpActivity extends AppCompatActivity {
                 SignUpActivity.this.startActivity(confirmationIntent);
             }
         });
-    }
-
-    public void addTestUser() {
-        Amplify.Auth.signUp(
-                "jack",
-                "asecurepassword",
-                AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "jnelson.java@gmail.com").build(),
-                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-                error -> Log.e("AuthQuickStart", "Sign up failed", error)
-        );
     }
 }

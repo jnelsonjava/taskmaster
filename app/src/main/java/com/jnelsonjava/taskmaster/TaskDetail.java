@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class TaskDetail extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        EventTracker.trackButtonClicked((View) item);
         Intent intent = new Intent(TaskDetail.this, MainActivity.class);
         TaskDetail.this.startActivity(intent);
         return true;
