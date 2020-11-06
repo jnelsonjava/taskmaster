@@ -99,3 +99,7 @@ An Android app for tracking tasks!
 
 ![Kinesis Metrics Sample](screenshots/kinesis-analytics.PNG)
 
+## Pinpoint Analytics
+
+![Pinpoint Analytics](screenshots/pinpoint-analytics.PNG)
+
