@@ -58,6 +58,9 @@ An Android app for tracking tasks!
     - created event tracking App Start
     - added event tracking user button clicks
     - linked Pinpoint stream to Kinesis
+  - 11/09/20
+    - made image shares receivable to add task form
+    - shared images can now be saved with new task and viewed with task details
 
 ## Main Page
 
@@ -102,4 +105,8 @@ An Android app for tracking tasks!
 ## Pinpoint Analytics
 
 ![Pinpoint Analytics](screenshots/pinpoint-analytics.PNG)
+
+## Task Details with Shared Image
+
+![Task Details with Shared Image](screenshots/task-details-activity-11-09-20.PNG)
 
