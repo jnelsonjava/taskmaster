@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.FileUtils;
@@ -42,6 +43,7 @@ public class AddTask extends AppCompatActivity {
     File attachFile;
     String globalKey = "";
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,31 @@ public class AddTask extends AppCompatActivity {
                 },
                 error -> Log.e("Amplify.queryitems", "Did not get teams")
         );
+
+
+        // handle image shared from external app
+        Intent shareImageIntent = getIntent();
+        Log.i("getDataStatus", shareImageIntent.getType().toString());
+        if (shareImageIntent.getType() != null) {
+
+            // reference for parsing image intent for Uri https://code.tutsplus.com/tutorials/android-sdk-receiving-data-from-the-send-intent--mobile-14878
+            Uri imageUri = (Uri) shareImageIntent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+            attachFile = new File(getFilesDir(), "tempfile");
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                FileUtils.copy(inputStream, new FileOutputStream(attachFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("does it exist" + attachFile.exists());
+            TextView fileStatusText = AddTask.this.findViewById(R.id.selectedFileText);
+            String fileAttached = "File Attached";
+            fileStatusText.setText(fileAttached);
+            Log.i("Amplify.imageAttach", "image attached");
+        }
 
         Button selectFileButton = AddTask.this.findViewById(R.id.chooseFileButton);
         selectFileButton.setOnClickListener(new View.OnClickListener() {
@@ -169,25 +196,30 @@ public class AddTask extends AppCompatActivity {
 
         if (requestCode == 987) {
             Log.i("Amplify.resultImage", "image pick process returned");
-            attachFile = new File(getFilesDir(), "tempfile");
-
-            System.out.println(data.getDataString());
-
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                FileUtils.copy(inputStream, new FileOutputStream(attachFile));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("does it exist" + attachFile.exists());
-            TextView fileStatusText = AddTask.this.findViewById(R.id.selectedFileText);
-            String fileAttached = "File Attached";
-            fileStatusText.setText(fileAttached);
-//            uploadFile(attachFile, "placeholderKey");
+            updateAttachFile(data);
         } else {
             Log.i("Amplify.resultActivity", "the request code does not match any expected");
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    public void updateAttachFile(Intent data) {
+        attachFile = new File(getFilesDir(), "tempfile");
+
+        System.out.println(data.getDataString());
+
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(data.getData());
+            FileUtils.copy(inputStream, new FileOutputStream(attachFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("does it exist" + attachFile.exists());
+        TextView fileStatusText = AddTask.this.findViewById(R.id.selectedFileText);
+        String fileAttached = "File Attached";
+        fileStatusText.setText(fileAttached);
+        Log.i("Amplify.imageAttach", "image attached");
     }
 
     public void uploadFile(File file, String fileKey) {
