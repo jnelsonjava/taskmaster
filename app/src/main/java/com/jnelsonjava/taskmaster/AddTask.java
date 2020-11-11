@@ -34,13 +34,11 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -58,7 +56,9 @@ public class AddTask extends AppCompatActivity {
 
     FusedLocationProviderClient fusedLocationClient;
     Location currentLocation;
-    String addressString;
+    String addressText;
+    float lat;
+    float lon;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -142,13 +142,14 @@ public class AddTask extends AppCompatActivity {
                 currentLocation = locationResult.getLastLocation();
                 Log.i("Location", currentLocation.toString());
 
-                currentLocation.getL
                 Geocoder geocoder = new Geocoder(AddTask.this, Locale.getDefault());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
                     Log.i("Location", addresses.get(0).toString());
-                    addressString = addresses.get(0).getAddressLine(0);
-                    Log.i("Location", addressString);
+                    lat = (float) currentLocation.getLatitude();
+                    lon = (float) currentLocation.getLongitude();
+                    addressText = addresses.get(0).getAddressLine(0);
+                    Log.i("Location", addressText);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -222,6 +223,8 @@ public class AddTask extends AppCompatActivity {
                         .title(title.getText().toString())
                         .body(body.getText().toString())
                         .filekey(globalKey)
+                        .address(addressText)
+                        .lat(lat).lon(lon)
                         .team(teams.get(teamAssignment))
                         .build();
 

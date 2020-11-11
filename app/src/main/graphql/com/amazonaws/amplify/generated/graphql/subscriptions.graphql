@@ -7,6 +7,9 @@ subscription OnCreateTask {
     title
     body
     filekey
+    address
+    lat
+    lon
     state {
       id
       name
@@ -34,6 +37,9 @@ subscription OnUpdateTask {
     title
     body
     filekey
+    address
+    lat
+    lon
     state {
       id
       name
@@ -61,6 +67,9 @@ subscription OnDeleteTask {
     title
     body
     filekey
+    address
+    lat
+    lon
     state {
       id
       name
@@ -116,6 +125,9 @@ subscription OnCreateTeam {
         title
         body
         filekey
+        address
+        lat
+        lon
         createdAt
         updatedAt
       }
@@ -137,6 +149,9 @@ subscription OnUpdateTeam {
         title
         body
         filekey
+        address
+        lat
+        lon
         createdAt
         updatedAt
       }
@@ -158,6 +173,9 @@ subscription OnDeleteTeam {
         title
         body
         filekey
+        address
+        lat
+        lon
         createdAt
         updatedAt
       }

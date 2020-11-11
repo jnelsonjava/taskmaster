@@ -10,6 +10,9 @@ mutation CreateTask(
     title
     body
     filekey
+    address
+    lat
+    lon
     state {
       id
       name
@@ -40,6 +43,9 @@ mutation UpdateTask(
     title
     body
     filekey
+    address
+    lat
+    lon
     state {
       id
       name
@@ -70,6 +76,9 @@ mutation DeleteTask(
     title
     body
     filekey
+    address
+    lat
+    lon
     state {
       id
       name
@@ -137,6 +146,9 @@ mutation CreateTeam(
         title
         body
         filekey
+        address
+        lat
+        lon
         createdAt
         updatedAt
       }
@@ -161,6 +173,9 @@ mutation UpdateTeam(
         title
         body
         filekey
+        address
+        lat
+        lon
         createdAt
         updatedAt
       }
@@ -185,6 +200,9 @@ mutation DeleteTeam(
         title
         body
         filekey
+        address
+        lat
+        lon
         createdAt
         updatedAt
       }
