@@ -28,11 +28,13 @@ public class TaskDetail extends AppCompatActivity {
         TextView taskTitle = TaskDetail.this.findViewById(R.id.taskTitleTextView);
         TextView taskBody = TaskDetail.this.findViewById(R.id.taskBodyTextView);
         TextView taskState = TaskDetail.this.findViewById(R.id.taskStateTextView);
+        TextView taskAddress = TaskDetail.this.findViewById(R.id.taskAddressTextView);
 
         taskTitle.setText(intent.getExtras().getString("title"));
         taskBody.setText(intent.getExtras().getString("body"));
         String stateText = "Progress: " + intent.getExtras().getString("state");
         taskState.setText(stateText);
+        taskAddress.setText(intent.getExtras().getString("address"));
 
         downloadFile(intent.getExtras().getString("filekey"));
     }
