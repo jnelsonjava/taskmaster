@@ -43,19 +43,31 @@
         android:id="@+id/taskDetailImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="TODO"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskAddressTextView"
-        android:contentDescription="TODO" />
+        app:layout_constraintTop_toBottomOf="@+id/taskAddressTextView" />
+
+    <Button
+        android:id="@+id/mapViewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View in Maps"
+        app:layout_constraintBottom_toBottomOf="@+id/taskAddressTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/taskAddressTextView"
+        app:layout_constraintTop_toTopOf="@+id/taskAddressTextView" />
 
     <TextView
         android:id="@+id/taskAddressTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
         android:text="@string/address_detail"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/mapViewButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskBodyTextView" />
 

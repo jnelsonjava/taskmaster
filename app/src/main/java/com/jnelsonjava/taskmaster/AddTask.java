@@ -166,6 +166,8 @@ public class AddTask extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
+            requestLocationAccess();
             return;
         }
 //        fusedLocationClient.getLastLocation()
@@ -307,5 +309,9 @@ public class AddTask extends AppCompatActivity {
                 result -> Log.i("Amplify.S3", "Successfully uploaded: " + result.getKey()),
                 storageFailure -> Log.e("Amplify.S3", "Upload failed", storageFailure)
         );
+    }
+
+    public void requestLocationAccess() {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
     }
 }

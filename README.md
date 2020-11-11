@@ -65,6 +65,7 @@ An Android app for tracking tasks!
     - added permissions and request for location access
     - updated schema/DynamoDB to hold address, latitude, and longitude in Task model
     - added address field to task detail view
+    - included button to view map location in external map app
 
 ## Main Page
 
