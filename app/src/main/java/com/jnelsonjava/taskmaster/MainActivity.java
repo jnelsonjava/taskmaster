@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -112,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         } catch (AmplifyException error) {
             Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
         }
+
+        requestLocationAccess();
 
         getPinpointManager(getApplicationContext());
 
@@ -301,6 +304,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TaskAdapter(tasks, this));
+    }
+
+    public void requestLocationAccess() {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
     }
 
     @Override

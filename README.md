@@ -61,6 +61,8 @@ An Android app for tracking tasks!
   - 11/09/20
     - made image shares receivable to add task form
     - shared images can now be saved with new task and viewed with task details
+  - 11/10/20
+    - added permissions and request for location access
 
 ## Main Page
 
