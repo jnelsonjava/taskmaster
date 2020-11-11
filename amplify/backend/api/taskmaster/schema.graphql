@@ -6,6 +6,9 @@ type Task @model
   title: String!
   body: String
   filekey: String
+  address: String
+  lat: Float
+  lon: Float
   state: State @connection(fields: ["stateID"])
   team: Team @connection(fields: ["taskID"])
 }

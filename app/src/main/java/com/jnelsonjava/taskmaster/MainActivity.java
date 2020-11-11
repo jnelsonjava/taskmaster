@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -112,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         } catch (AmplifyException error) {
             Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
         }
+
+        requestLocationAccess();
 
         getPinpointManager(getApplicationContext());
 
@@ -303,6 +306,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         recyclerView.setAdapter(new TaskAdapter(tasks, this));
     }
 
+    public void requestLocationAccess() {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+    }
+
     @Override
     public void taskListener(Task task) {
         Intent goToTaskDetailsIntent = new Intent(MainActivity.this, TaskDetail.class);
@@ -310,6 +317,9 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("body", task.getBody());
         goToTaskDetailsIntent.putExtra("state", task.getState().getName());
         goToTaskDetailsIntent.putExtra("filekey", task.getFilekey());
+        goToTaskDetailsIntent.putExtra("address", task.getAddress());
+        goToTaskDetailsIntent.putExtra("lat", task.getLat());
+        goToTaskDetailsIntent.putExtra("lon", task.getLon());
         this.startActivity(goToTaskDetailsIntent);
     }
 }

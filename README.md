@@ -61,6 +61,11 @@ An Android app for tracking tasks!
   - 11/09/20
     - made image shares receivable to add task form
     - shared images can now be saved with new task and viewed with task details
+  - 11/10/20
+    - added permissions and request for location access
+    - updated schema/DynamoDB to hold address, latitude, and longitude in Task model
+    - added address field to task detail view
+    - included button to view map location in external map app
 
 ## Main Page
 
@@ -109,4 +114,8 @@ An Android app for tracking tasks!
 ## Task Details with Shared Image
 
 ![Task Details with Shared Image](screenshots/task-details-activity-11-09-20.PNG)
+
+## Task Details with Address
+
+![Task Details with Address](screenshots/task-details-activity-11-10-20.PNG)
 

@@ -2,8 +2,14 @@ package com.jnelsonjava.taskmaster;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,25 +29,36 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.State;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class AddTask extends AppCompatActivity {
 
-//    Database db;
+    //    Database db;
     String teamAssignment;
     Map<String, State> states;
     Map<String, Team> teams;
     File attachFile;
     String globalKey = "";
+
+    FusedLocationProviderClient fusedLocationClient;
+    Location currentLocation;
+    String addressText;
+    float lat;
+    float lon;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -83,7 +100,7 @@ public class AddTask extends AppCompatActivity {
 
         // handle image shared from external app
         Intent shareImageIntent = getIntent();
-        Log.i("getDataStatus", shareImageIntent.getType().toString());
+//        Log.i("getDataStatus", shareImageIntent.getType().toString());
         if (shareImageIntent.getType() != null) {
 
             // reference for parsing image intent for Uri https://code.tutsplus.com/tutorials/android-sdk-receiving-data-from-the-send-intent--mobile-14878
@@ -104,6 +121,67 @@ public class AddTask extends AppCompatActivity {
             fileStatusText.setText(fileAttached);
             Log.i("Amplify.imageAttach", "image attached");
         }
+
+        // configure location services
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        LocationRequest locationRequest;
+        LocationCallback locationCallback;
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+//                super.onLocationResult(locationResult);
+                if (locationResult == null) {
+                    return;
+                }
+                currentLocation = locationResult.getLastLocation();
+                Log.i("Location", currentLocation.toString());
+
+                Geocoder geocoder = new Geocoder(AddTask.this, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
+                    Log.i("Location", addresses.get(0).toString());
+                    lat = (float) currentLocation.getLatitude();
+                    lon = (float) currentLocation.getLongitude();
+                    addressText = addresses.get(0).getAddressLine(0);
+                    Log.i("Location", addressText);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Location", "Location access permission is not granted");
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            requestLocationAccess();
+            return;
+        }
+//        fusedLocationClient.getLastLocation()
+//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        if (location != null) {
+//                            // TODO: handle location object
+//                        }
+//                    }
+//                });
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+
 
         Button selectFileButton = AddTask.this.findViewById(R.id.chooseFileButton);
         selectFileButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +225,8 @@ public class AddTask extends AppCompatActivity {
                         .title(title.getText().toString())
                         .body(body.getText().toString())
                         .filekey(globalKey)
+                        .address(addressText)
+                        .lat(lat).lon(lon)
                         .team(teams.get(teamAssignment))
                         .build();
 
@@ -229,5 +309,9 @@ public class AddTask extends AppCompatActivity {
                 result -> Log.i("Amplify.S3", "Successfully uploaded: " + result.getKey()),
                 storageFailure -> Log.e("Amplify.S3", "Upload failed", storageFailure)
         );
+    }
+
+    public void requestLocationAccess() {
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
     }
 }
