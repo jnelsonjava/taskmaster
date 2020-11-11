@@ -7,6 +7,8 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -28,6 +30,9 @@ import com.amplifyframework.datastore.generated.model.State;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -38,6 +43,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -51,6 +57,8 @@ public class AddTask extends AppCompatActivity {
     String globalKey = "";
 
     FusedLocationProviderClient fusedLocationClient;
+    Location currentLocation;
+    String addressString;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -92,7 +100,7 @@ public class AddTask extends AppCompatActivity {
 
         // handle image shared from external app
         Intent shareImageIntent = getIntent();
-        Log.i("getDataStatus", shareImageIntent.getType().toString());
+//        Log.i("getDataStatus", shareImageIntent.getType().toString());
         if (shareImageIntent.getType() != null) {
 
             // reference for parsing image intent for Uri https://code.tutsplus.com/tutorials/android-sdk-receiving-data-from-the-send-intent--mobile-14878
@@ -114,9 +122,42 @@ public class AddTask extends AppCompatActivity {
             Log.i("Amplify.imageAttach", "image attached");
         }
 
+        // configure location services
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        LocationRequest locationRequest;
+        LocationCallback locationCallback;
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10000);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+//                super.onLocationResult(locationResult);
+                if (locationResult == null) {
+                    return;
+                }
+                currentLocation = locationResult.getLastLocation();
+                Log.i("Location", currentLocation.toString());
+
+                currentLocation.getL
+                Geocoder geocoder = new Geocoder(AddTask.this, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
+                    Log.i("Location", addresses.get(0).toString());
+                    addressString = addresses.get(0).getAddressLine(0);
+                    Log.i("Location", addressString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Location", "Location access permission is not granted");
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -126,16 +167,18 @@ public class AddTask extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//        fusedLocationClient.getLastLocation()
+//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//
+//                    @Override
+//                    public void onSuccess(Location location) {
+//                        if (location != null) {
+//                            // TODO: handle location object
+//                        }
+//                    }
+//                });
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
 
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            // TODO: handle location object
-                        }
-                    }
-                });
 
         Button selectFileButton = AddTask.this.findViewById(R.id.chooseFileButton);
         selectFileButton.setOnClickListener(new View.OnClickListener() {
