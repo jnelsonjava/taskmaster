@@ -66,10 +66,12 @@ An Android app for tracking tasks!
     - updated schema/DynamoDB to hold address, latitude, and longitude in Task model
     - added address field to task detail view
     - included button to view map location in external map app
+  - 11/11/20
+    - added ad to bottom of main app view
 
 ## Main Page
 
-![Main page](screenshots/main-activity-11-02-20.PNG)
+![Main page](screenshots/main-activity-11-11-20.PNG)
 
 ## Detail View
 

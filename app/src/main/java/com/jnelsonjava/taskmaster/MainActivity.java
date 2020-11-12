@@ -37,6 +37,11 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 //    Database db;
     RecyclerView recyclerView;
     List<Task> tasks;
+    AdView mAdView;
 
     // DONE: copy in pinpoint manager
 
@@ -117,6 +123,16 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         requestLocationAccess();
 
         getPinpointManager(getApplicationContext());
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         Handler handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
