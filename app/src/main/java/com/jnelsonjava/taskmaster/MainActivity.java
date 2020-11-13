@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
     RecyclerView recyclerView;
     List<Task> tasks;
-    public static boolean loggingOn = true;
+    public static boolean loggingOn = false;
 
     private static PinpointManager pinpointManager;
 

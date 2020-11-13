@@ -71,7 +71,7 @@ An Android app for tracking tasks!
   - 11/12/20
     - removed logs
     - removed ads
-
+    - built release apk
 
 ## Main Page
 
