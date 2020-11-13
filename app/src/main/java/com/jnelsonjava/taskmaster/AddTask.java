@@ -44,10 +44,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.jnelsonjava.taskmaster.MainActivity.loggerE;
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
+
 
 public class AddTask extends AppCompatActivity {
 
-    //    Database db;
     String teamAssignment;
     Map<String, State> states;
     Map<String, Team> teams;
@@ -66,12 +68,8 @@ public class AddTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        // Thanks to David Dicken for helping out with Action Bar access!
-        // And https://stackoverflow.com/questions/14545139/android-back-button-in-the-title-bar
-        // And https://stackoverflow.com/questions/6867076/getactionbar-returns-null
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // query dynamo for available states
         states = new HashMap<>();
         Amplify.API.query(
                 ModelQuery.list(State.class),
@@ -79,9 +77,9 @@ public class AddTask extends AppCompatActivity {
                     for (State state : response.getData()) {
                         states.put(state.getName(), state);
                     }
-                    Log.i("Amplify.queryitems", "Receveived states");
+                    loggerI("Amplify.queryitems", "Receveived states");
                 },
-                error -> Log.e("Amplify.queryitems", "Did not get states")
+                error -> loggerE("Amplify.queryitems", "Did not get states")
         );
 
         // query dynamo for available teams
@@ -98,12 +96,9 @@ public class AddTask extends AppCompatActivity {
         );
 
 
-        // handle image shared from external app
         Intent shareImageIntent = getIntent();
-//        Log.i("getDataStatus", shareImageIntent.getType().toString());
         if (shareImageIntent.getType() != null) {
 
-            // reference for parsing image intent for Uri https://code.tutsplus.com/tutorials/android-sdk-receiving-data-from-the-send-intent--mobile-14878
             Uri imageUri = (Uri) shareImageIntent.getParcelableExtra(Intent.EXTRA_STREAM);
 
             attachFile = new File(getFilesDir(), "tempfile");
@@ -115,11 +110,10 @@ public class AddTask extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            System.out.println("does it exist" + attachFile.exists());
             TextView fileStatusText = AddTask.this.findViewById(R.id.selectedFileText);
             String fileAttached = "File Attached";
             fileStatusText.setText(fileAttached);
-            Log.i("Amplify.imageAttach", "image attached");
+            loggerI("Amplify.imageAttach", "image attached");
         }
 
         // configure location services
@@ -135,21 +129,17 @@ public class AddTask extends AppCompatActivity {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-//                super.onLocationResult(locationResult);
                 if (locationResult == null) {
                     return;
                 }
                 currentLocation = locationResult.getLastLocation();
-                Log.i("Location", currentLocation.toString());
 
                 Geocoder geocoder = new Geocoder(AddTask.this, Locale.getDefault());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
-                    Log.i("Location", addresses.get(0).toString());
                     lat = (float) currentLocation.getLatitude();
                     lon = (float) currentLocation.getLongitude();
                     addressText = addresses.get(0).getAddressLine(0);
-                    Log.i("Location", addressText);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -158,30 +148,13 @@ public class AddTask extends AppCompatActivity {
         };
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i("Location", "Location access permission is not granted");
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            loggerI("Location", "Location access permission is not granted");
 
             requestLocationAccess();
             return;
         }
-//        fusedLocationClient.getLastLocation()
-//                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        if (location != null) {
-//                            // TODO: handle location object
-//                        }
-//                    }
-//                });
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
 
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
 
         Button selectFileButton = AddTask.this.findViewById(R.id.chooseFileButton);
         selectFileButton.setOnClickListener(new View.OnClickListener() {
@@ -199,15 +172,6 @@ public class AddTask extends AppCompatActivity {
                 EventTracker.trackButtonClicked(v);
                 Toast.makeText(AddTask.this, "Submitted!", Toast.LENGTH_SHORT).show();
 
-//                db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
-//                        .allowMainThreadQueries()
-//                        .build();
-
-                System.out.println(teamAssignment);
-                System.out.println(states);
-                System.out.println(teams);
-
-                // get info from form, create task, and save task to db
                 EditText title = findViewById(R.id.editTextTaskTitle);
                 EditText body = findViewById(R.id.editTextTaskDescription);
 
@@ -215,10 +179,6 @@ public class AddTask extends AppCompatActivity {
                     globalKey = attachFile.getName() + Math.random();
                     uploadFile(attachFile, globalKey);
                 }
-
-//                Task task = new Task(title.getText().toString(), body.getText().toString(), "new");
-//                db.taskInstanceDAO().saveTask(task);
-
 
                 Task task = Task.builder()
                         .stateId(states.get("new").getId())
@@ -231,8 +191,8 @@ public class AddTask extends AppCompatActivity {
                         .build();
 
                 Amplify.API.mutate(ModelMutation.create(task),
-                        response -> Log.i("AddTaskActivityAmplify", "successfully added task"),
-                        error -> Log.e("AddTaskActivityAmplify", error.toString()));
+                        response -> loggerI("AddTaskActivityAmplify", "successfully added task"),
+                        error -> loggerE("AddTaskActivityAmplify", error.toString()));
             }
         });
     }
@@ -241,7 +201,6 @@ public class AddTask extends AppCompatActivity {
         EventTracker.trackButtonClicked(view);
         RadioButton radioButton = (RadioButton) view;
         teamAssignment = radioButton.getText().toString();
-//        System.out.println("TeamRadioButtonChecked: " + teamAssignment);
     }
 
     @Override
@@ -256,16 +215,6 @@ public class AddTask extends AppCompatActivity {
         Intent getPictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getPictureIntent.setType("*/*");
 
-        // below is a sample of getting specific filetypes
-//        getPictureIntent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{".png",".jpg",".PNG"});
-
-        // this makes files immediately accessible
-//        getPictureIntent.addCategory(Intent.CATEGORY_OPENABLE);
-//        getPictureIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-
-        // opens file picker with files matching type
-//        startActivity(getPictureIntent);
-
         startActivityForResult(getPictureIntent, 987); // request code is custom
     }
 
@@ -275,18 +224,16 @@ public class AddTask extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 987) {
-            Log.i("Amplify.resultImage", "image pick process returned");
+            loggerI("Amplify.resultImage", "image pick process returned");
             updateAttachFile(data);
         } else {
-            Log.i("Amplify.resultActivity", "the request code does not match any expected");
+            loggerI("Amplify.resultActivity", "the request code does not match any expected");
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     public void updateAttachFile(Intent data) {
         attachFile = new File(getFilesDir(), "tempfile");
-
-        System.out.println(data.getDataString());
 
         try {
             InputStream inputStream = getContentResolver().openInputStream(data.getData());
@@ -295,19 +242,18 @@ public class AddTask extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        System.out.println("does it exist" + attachFile.exists());
         TextView fileStatusText = AddTask.this.findViewById(R.id.selectedFileText);
         String fileAttached = "File Attached";
         fileStatusText.setText(fileAttached);
-        Log.i("Amplify.imageAttach", "image attached");
+        loggerI("Amplify.imageAttach", "image attached");
     }
 
     public void uploadFile(File file, String fileKey) {
         Amplify.Storage.uploadFile(
                 fileKey,
                 file,
-                result -> Log.i("Amplify.S3", "Successfully uploaded: " + result.getKey()),
-                storageFailure -> Log.e("Amplify.S3", "Upload failed", storageFailure)
+                result -> loggerI("Amplify.S3", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> loggerE("Amplify.S3", "Upload failed", storageFailure)
         );
     }
 

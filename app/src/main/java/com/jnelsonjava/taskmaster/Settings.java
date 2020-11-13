@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 public class Settings extends AppCompatActivity {
 
@@ -27,10 +26,6 @@ public class Settings extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         EditText usernameEditText = findViewById(R.id.editTextUsername);
         usernameEditText.setText(preferences.getString("username", "My Name"));
-
-//        TextView taskListTitle = findViewById(R.id.taskListTitleTextView);
-//        String updatedText = preferences.getString("username", "") + " tasks";
-//        taskListTitle.setText(updatedText);
 
         team = preferences.getString("team", null);
 

@@ -68,6 +68,10 @@ An Android app for tracking tasks!
     - included button to view map location in external map app
   - 11/11/20
     - added ad to bottom of main app view
+  - 11/12/20
+    - removed logs
+    - removed ads
+
 
 ## Main Page
 

@@ -47,12 +47,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView titleTextView = holder.itemView.findViewById(R.id.taskTitleTextView);
         TextView bodyTextView = holder.itemView.findViewById(R.id.taskBodyTextView);
         TextView stateTextView = holder.itemView.findViewById(R.id.taskStateTextView);
-        TextView filekeyTextView = holder.itemView.findViewById(R.id.taskFilekeyTextView);
+        TextView fileKeyTextView = holder.itemView.findViewById(R.id.taskFilekeyTextView);
 
         titleTextView.setText(holder.task.getTitle());
         bodyTextView.setText(holder.task.getBody());
         stateTextView.setText(holder.task.getState().getName());
-        filekeyTextView.setText(holder.task.getFilekey());
+        fileKeyTextView.setText(holder.task.getFilekey());
     }
 
     @Override

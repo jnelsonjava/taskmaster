@@ -6,18 +6,18 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amplifyframework.core.Amplify;
 
 import java.io.File;
-import java.util.Locale;
+
+import static com.jnelsonjava.taskmaster.MainActivity.loggerE;
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
 
 public class TaskDetail extends AppCompatActivity {
 
@@ -70,14 +70,12 @@ public class TaskDetail extends AppCompatActivity {
                 fileKey,
                 new File(getApplicationContext().getFilesDir() + "/" + fileKey + ".txt"),
                 result -> {
-                    Log.i("Amplify.S3download", "Successfully downloaded: " + result.getFile().getName());
-
-
+                    loggerI("Amplify.S3download", "Successfully downloaded: " + result.getFile().getName());
 
                     ImageView taskImage = findViewById(R.id.taskDetailImage);
                     taskImage.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
                 },
-                error -> Log.e("Amplify.S3download",  "Download Failure", error)
+                error -> loggerE("Amplify.S3download",  "Download Failure", error)
         );
     }
 }

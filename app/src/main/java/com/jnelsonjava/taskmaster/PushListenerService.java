@@ -2,7 +2,6 @@ package com.jnelsonjava.taskmaster;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -12,6 +11,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.HashMap;
+
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
 
 public class PushListenerService extends FirebaseMessagingService {
     public static final String TAG = "Amplify.FMS";
@@ -26,14 +27,14 @@ public class PushListenerService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         super.onNewToken(token);
 
-        Log.d(TAG, "Registering push notifications token: " + token);
+        loggerI(TAG, "Registering push notifications token: " + token);
         MainActivity.getPinpointManager(getApplicationContext()).getNotificationClient().registerDeviceToken(token);
     }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d(TAG, "Message: " + remoteMessage.getData());
+        loggerI(TAG, "Message: " + remoteMessage.getData());
 
         final NotificationClient notificationClient = MainActivity.getPinpointManager(getApplicationContext()).getNotificationClient();
 

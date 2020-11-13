@@ -1,14 +1,15 @@
 package com.jnelsonjava.taskmaster;
 
-import android.util.Log;
 import android.view.View;
 
 import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.core.Amplify;
 
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
+
 public class EventTracker {
     public static void trackButtonClicked(View v) {
-        Log.i("EventTracker", "button click on " + v.getResources().getResourceEntryName(v.getId()));
+        loggerI("EventTracker", "button click on " + v.getResources().getResourceEntryName(v.getId()));
 
         String currentUser = (Amplify.Auth.getCurrentUser() != null) ? Amplify.Auth.getCurrentUser().getUsername() : "Guest";
 
@@ -22,7 +23,7 @@ public class EventTracker {
     }
 
     public static void trackAppStart() {
-        Log.i("EventTracker", "App Start Event");
+        loggerI("EventTracker", "App Start Event");
 
         AnalyticsEvent event = AnalyticsEvent.builder()
                 .name("NewAppStart")
