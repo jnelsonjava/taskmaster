@@ -27,7 +27,6 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.amplifyframework.AmplifyException;
-import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.ApiOperation;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -37,11 +36,6 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -51,12 +45,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskListenable {
 
-//    Database db;
     RecyclerView recyclerView;
     List<Task> tasks;
-    AdView mAdView;
-
-    // DONE: copy in pinpoint manager
+    public static boolean loggingOn = false;
 
     private static PinpointManager pinpointManager;
 
@@ -66,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
                 @Override
                 public void onResult(UserStateDetails userStateDetails) {
-                    Log.i("INIT", userStateDetails.getUserState().toString());
+                    loggerI("INIT", userStateDetails.getUserState().toString());
                 }
 
                 @Override
                 public void onError(Exception e) {
-                    Log.e("INIT", "Initialization error.", e);
+                    loggerE("INIT", "Initialization error.", e);
                 }
             });
 
@@ -87,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                         @Override
                         public void onComplete(@NonNull com.google.android.gms.tasks.Task<InstanceIdResult> task) {
                             final String token = task.getResult().getToken();
-                            Log.d("Amplify.pinpoint", "Registering push notifications token: " + token);
+                            loggerI("Amplify.pinpoint", "Registering push notifications token: " + token);
                             pinpointManager.getNotificationClient().registerDeviceToken(token);
                         }
                     });
@@ -95,17 +86,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         return pinpointManager;
     }
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // initialize amplify
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
@@ -115,39 +100,29 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
 
             EventTracker.trackAppStart();
 
-            Log.i("MainActivityAmplify", "Initialized Amplify");
+            loggerI("MainActivityAmplify", "Initialized Amplify");
         } catch (AmplifyException error) {
-            Log.e("MainActivityAmplify", "Could not initialize Amplify", error);
+            loggerE("MainActivityAmplify", "Could not initialize Amplify", error);
         }
 
         requestLocationAccess();
 
         getPinpointManager(getApplicationContext());
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
         Handler handleCheckLoggedIn = new Handler(Looper.getMainLooper(), message -> {
             if (message.arg1 == 0) {
-                Log.i("Amplify.login", "handler: they were not logged in");
+                loggerI("Amplify.login", "handler: they were not logged in");
             } else if (message.arg1 == 1){
-                Log.i("Amplify.login", "handler: they were logged in!");
+                loggerI("Amplify.login", "handler: they were logged in!");
             } else {
-                Log.i("Amplify.login", "handler: ?????????");
+                loggerI("Amplify.login", "handler: ?????????");
             }
             return false;
         });
 
         Amplify.Auth.fetchAuthSession(
                 result -> {
-                    Log.i("AmplifyQuickstart", result.toString());
+                    loggerI("AmplifyQuickstart", result.toString());
                     Message message = new Message();
                     if (result.isSignedIn()) {
                         message.arg1 = 1;
@@ -156,13 +131,10 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                     }
                     handleCheckLoggedIn.sendMessage(message);
                 },
-                error -> Log.e("AmplifyQuickstart", error.toString())
+                error -> loggerE("AmplifyQuickstart", error.toString())
         );
 
-
-
         tasks = new ArrayList<>();
-
 
         Handler handler = new Handler(Looper.getMainLooper(),
                 new Handler.Callback() {
@@ -180,18 +152,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                     return false;
                 });
 
-
-
-
-
-//        db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
-//                .allowMainThreadQueries()
-//                .build();
-//
-//        List<TaskInstance> tasks = db.taskInstanceDAO().getTasksSortByRecent();
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
 
         Amplify.API.query(
                 ModelQuery.list(Task.class),
@@ -199,29 +160,25 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                     for (Task task : response.getData()) {
                         if (task.getTeam().getName().equals(preferences.getString("team", null))) {
                             tasks.add(task);
-                            Log.i("a task", task.toString());
+                            loggerI("a task", task.toString());
                         }
                     }
                     handler.sendEmptyMessage(1);
-                    Log.i("Amplify.queryitems", "Got this many items from dynamo " + tasks.size());
+                    loggerI("Amplify.queryitems", "Got this many items from dynamo " + tasks.size());
 
                 },
-                error -> Log.i("Amplify.queryitems", "Did not get items")
+                error -> loggerI("Amplify.queryitems", "Did not get items")
         );
-
-
 
         recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TaskAdapter(tasks, this));
 
-
-
         ApiOperation subscription = Amplify.API.subscribe(
                 ModelSubscription.onCreate(Task.class),
-                onEstablished -> Log.i("Amplify.Subscription", "Subscription established"),
+                onEstablished -> loggerI("Amplify.Subscription", "Subscription established"),
                 onCreated -> {
-                    Log.i("Amplify.Subscription", "Todo create subscription received: " + ((Task) onCreated.getData()).getTitle());
+                    loggerI("Amplify.Subscription", "Todo create subscription received: " + ((Task) onCreated.getData()).getTitle());
                     Task newTask = (Task) onCreated.getData();
                     if (newTask.getTeam().getName().equals(preferences.getString("team", null))) {
                         tasks.add(newTask);
@@ -229,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
                     }
                 },
                 onFailure -> Log.e("Amplify.Subscription", "Subscription failed", onFailure),
-                () -> Log.i("Amplify.Subscription", "Subscription completed")
+                () -> loggerI("Amplify.Subscription", "Subscription completed")
         );
 
         Button loginButton = MainActivity.this.findViewById(R.id.loginMainActivityButton);
@@ -249,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
             public void onClick(View v) {
                 EventTracker.trackButtonClicked(v);
                 Amplify.Auth.signOut(
-                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        () -> loggerI("AuthQuickstart", "Signed out successfully"),
                         error -> Log.e("AuthQuickstart", error.toString())
                 );
             }
@@ -302,20 +259,11 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
     protected void  onResume() {
         super.onResume();
 
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        String updatedText = preferences.getString("username", "") + " tasks";
         if (Amplify.Auth.getCurrentUser() != null) {
             TextView taskListTitle = findViewById(R.id.taskListTitleTextView);
             String updatedText = Amplify.Auth.getCurrentUser().getUsername() + " tasks";
             taskListTitle.setText(updatedText);
         }
-
-//        db = Room.databaseBuilder(getApplicationContext(), Database.class, "jnelson_task_master")
-//                .allowMainThreadQueries()
-//                .build();
-//        List<TaskInstance> tasks = db.taskInstanceDAO().getTasksSortByRecent();
-
-
 
         RecyclerView recyclerView = findViewById(R.id.task_list_main_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -337,5 +285,23 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.TaskL
         goToTaskDetailsIntent.putExtra("lat", task.getLat());
         goToTaskDetailsIntent.putExtra("lon", task.getLon());
         this.startActivity(goToTaskDetailsIntent);
+    }
+
+    public static void loggerI(String tag, String message) {
+        if (loggingOn) {
+            Log.i(tag, message);
+        }
+    }
+
+    public static void loggerE(String tag, String message) {
+        if (loggingOn) {
+            Log.e(tag, message);
+        }
+    }
+
+    public static void loggerE(String tag, String message, Throwable e) {
+        if (loggingOn) {
+            Log.e(tag, message, e);
+        }
     }
 }

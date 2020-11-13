@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +11,9 @@ import android.widget.EditText;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
+
+import static com.jnelsonjava.taskmaster.MainActivity.loggerE;
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -33,8 +35,8 @@ public class SignUpActivity extends AppCompatActivity {
                         username.getText().toString(),
                         password.getText().toString(),
                         AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), email.getText().toString()).build(),
-                        result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-                        error -> Log.e("AuthQuickStart", "Sign up failed", error)
+                        result -> loggerI("AuthQuickStart", "Result: " + result.toString()),
+                        error -> loggerE("AuthQuickStart", "Sign up failed", error)
                 );
 
                 Intent confirmationIntent = new Intent(SignUpActivity.this, SignUpConfirmationActivity.class);

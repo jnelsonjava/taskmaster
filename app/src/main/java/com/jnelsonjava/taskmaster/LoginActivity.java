@@ -3,13 +3,14 @@ package com.jnelsonjava.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.amplifyframework.core.Amplify;
+
+import static com.jnelsonjava.taskmaster.MainActivity.loggerE;
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,9 +32,9 @@ public class LoginActivity extends AppCompatActivity {
                         password.getText().toString(),
                         result -> {
                             String signInStatus = result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete";
-                            Log.i("AuthQuickstart", signInStatus);
+                            loggerI("AuthQuickstart", signInStatus);
                         },
-                        error -> Log.e("AuthQuickstart", error.toString())
+                        error -> loggerE("AuthQuickstart", error.toString())
                 );
             }
         });

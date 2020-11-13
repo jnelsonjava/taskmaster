@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.amplifyframework.core.Amplify;
+
+import static com.jnelsonjava.taskmaster.MainActivity.loggerE;
+import static com.jnelsonjava.taskmaster.MainActivity.loggerI;
 
 public class SignUpConfirmationActivity extends AppCompatActivity {
 
@@ -29,8 +31,8 @@ public class SignUpConfirmationActivity extends AppCompatActivity {
                 Amplify.Auth.confirmSignUp(
                         intent.getExtras().getString("newUser"),
                         confirmationNumber.getText().toString(),
-                        result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
-                        error -> Log.e("AuthQuickstart", error.toString())
+                        result -> loggerI("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+                        error -> loggerE("AuthQuickstart", error.toString())
                 );
 
                 finish();

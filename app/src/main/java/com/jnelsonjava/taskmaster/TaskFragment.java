@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jnelsonjava.taskmaster.R;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TaskFragment#newInstance} factory method to
